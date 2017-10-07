@@ -6,7 +6,7 @@
 #    By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/02 09:41:50 by amoinier          #+#    #+#              #
-#    Updated: 2017/10/07 15:19:41 by amoinier         ###   ########.fr        #
+#    Updated: 2017/10/07 15:23:45 by amoinier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,14 +20,14 @@ SRCS = $(shell ls srcs/)
 
 OBDIR = objs/
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(OBDIR)$(SRCS:.cpp=.o)
 
 LIB = -lncurses
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	clang++ $(FLAG) $(OBJS) $(LIB) -o $(NAME)
+	clang++ $(FLAG) $(OBJS) -I incs/ $(LIB) -o $(NAME)
 
 $(OBDIR)%.o: $(SRCDIR)%.cpp
 	mkdir -p $(OBDIR)
