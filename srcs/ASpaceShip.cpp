@@ -7,14 +7,12 @@
 ASpaceShip::ASpaceShip( unsigned int hp, AEntity & shape, IWeapon * weapon):
 	_hp(hp), _hpMax(10) ,_shape(shape), _weapon(weapon)
 {
-	std::cout << __func__ <<std::endl;
 }
 
 
 ASpaceShip::ASpaceShip( unsigned int hp, AEntity & shape):
 	_hp(hp), _hpMax(hp) , _shape(shape)
 {
-	std::cout << __func__ <<std::endl;
 }
 
 ASpaceShip::ASpaceShip(ASpaceShip const & src ): _shape(src._shape)

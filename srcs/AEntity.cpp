@@ -6,28 +6,20 @@
 
 AEntity::AEntity(void) : _sizeX(4), _sizeY(4)
 {
-	std::cout << "Empty AEntity Constructor" << std::endl;
 	this->_entityIndex = AEntity::_index;
 	this->_initDefinition(4, 4);
 
-	std::cout << __func__ <<std::endl;
 }
 
 
 AEntity::AEntity(int x, int y) : _sizeX(x), _sizeY(y)
 {
-	std::cout << "Init AEntity Constructor" << std::endl;
 	this->_entityIndex = AEntity::_index;
 	this->_initDefinition(x, y);
-	std::cout << "1 bis" << std::endl;
-	std::cout << "2 bis" << std::endl;
-
-	std::cout << __func__ <<std::endl;
 }
 
 AEntity::AEntity(AEntity const & src )
 {
-	std::cout << "Copy AEntity Constructor" << std::endl;
 	*this = src;
 }
 /******************************************************************************

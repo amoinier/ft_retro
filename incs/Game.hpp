@@ -15,10 +15,12 @@ class Game
 		WINDOW* 	_box;
 		AEntity*	_map;
 		Hero* 		_hero;
-		D7**	 	_enemies;
+		Enemy**	 	_enemies;
 		int			_enemyNbr;
+		int 		_enemyNbrMax;
 
 		void 		_initEnemy(void);
+		void 		_newWave(void);
 		void 		_putEntity(AEntity &entity, int x, int y);
 		void 		_deleteEntity(AEntity &entity);
 		bool		_moveEntityUp(AEntity &entity);

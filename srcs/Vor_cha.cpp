@@ -2,7 +2,7 @@
 /******************************************************************************
 ** 								CONSTRUCTOR
 ******************************************************************************/
-Vor_cha::Vor_cha ( AEntity & shape, IWeapon * Weapon, unsigned int color): Enemy(shape, Weapon, 50, color)
+Vor_cha::Vor_cha ( IWeapon * Weapon, unsigned int color): Enemy(*new AEntity(5, 5), Weapon, 50, color)
 {
 	return ;
 }

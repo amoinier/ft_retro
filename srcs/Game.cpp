@@ -3,8 +3,9 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-Game::Game (int enemyNbr) : _enemyNbr(enemyNbr)
+Game::Game (int enemyNbr) :  _enemyNbr(0), _enemyNbrMax(enemyNbr)
 {
+	std::srand(std::time(NULL) + std::clock());
 	initscr();
 	nodelay(stdscr, TRUE);
 	keypad(stdscr, TRUE);
@@ -45,6 +46,7 @@ Game & Game::operator=( Game const & rhs )
 	this->_hero = rhs._hero;
 	this->_enemies = rhs._enemies;
 	this->_enemyNbr = rhs._enemyNbr;
+	this->_enemyNbrMax = rhs._enemyNbrMax;
 
 	return *this;
 }
@@ -54,13 +56,26 @@ Game & Game::operator=( Game const & rhs )
 ******************************************************************************/
 void 		Game::_initEnemy(void)
 {
-	int i = 0;
-
-	this->_enemies = new D7*[this->_enemyNbr];
-	for (i = 0; i < this->_enemyNbr; i++) {
-		this->_enemies[i] = new D7(*new AEntity(), new IWeapon(), 0x0);
-		this->_putEntity(this->_enemies[i]->getShape(), ((this->_map->getSizeX() / (this->_enemyNbr)) * (i + 1)), 5);
+	this->_enemies = new Enemy*[this->_enemyNbrMax];
+	for (int i = 0; i < this->_enemyNbrMax; i++) {
+		this->_enemies[i] = NULL;
 	}
+
+	return ;
+}
+
+void 		Game::_newWave(void)
+{
+	this->_enemyNbr = rand() % this->_enemyNbrMax;
+
+	for (int i = 0; i < this->_enemyNbr; i++) {
+		if (!this->_enemies[i]) {
+			this->_enemies[i] = new D7(new IWeapon(), 0x0);
+			this->_putEntity(this->_enemies[i]->getShape(), ((this->_map->getSizeX() / (this->_enemyNbr)) * (i)) + 1, 5);
+		}
+	}
+
+	return ;
 }
 
 void 		Game::_putEntity(AEntity &entity, int x, int y)
@@ -231,15 +246,15 @@ void 		Game::moveEntity(AEntity &entity, int vecteur)
 void 		Game::moveEnemies(void)
 {
 	int i = 0;
-	i = 0;
 
-	for (i = 0; i < 10; i++) {
-		if (this->_enemies[i])
+	for (i = 0; i < this->_enemyNbrMax; i++) {
+		if (this->_enemies[i] != NULL && this->_enemies[i])
 		{
 			this->_deleteEntity(this->_enemies[i]->getShape());
 			if (this->_enemies[i]->enemyMove(this->_map->getSizeX(), this->_map->getSizeY())) {
 				this->_putEntity(this->_enemies[i]->getShape(), this->_enemies[i]->getShape().getPosX(), this->_enemies[i]->getShape().getPosY());
 			}else{
+				this->_enemyNbr--;
 				delete this->_enemies[i];
 				this->_enemies[i] = NULL;
 			}
@@ -268,5 +283,11 @@ void Game::play(int ch)
 		this->moveEntity(this->_hero->getShape(), 4);
 	}
 
-	this->moveEnemies();
+	if (this->_enemyNbr == 0) {
+		this->_newWave();
+	}
+	else {
+		this->moveEnemies();
+	}
+
 }
