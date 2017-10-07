@@ -2,15 +2,24 @@
 /******************************************************************************
 ** 								CONSTRUCTOR
 ******************************************************************************/
-Game::Game ( void )
-{
-	std::cout << "Empty Game Constructor" << std::endl;
 
-	return ;
-}
-
-Game::Game ( WINDOW** box, int x, int y ):	_box(box), _map(new AEntity(x, y)), _hero(new Hero(*new AEntity()))
+Game::Game (void)
 {
+
+	freopen("box.log", "w", stderr);
+	initscr();
+	nodelay(stdscr, TRUE);
+	keypad(stdscr, TRUE);
+	curs_set(0);
+	this->_box = subwin(stdscr, COLS, LINES, 0, 0);
+	this->_map = new AEntity(getmaxx(stdscr), getmaxy(stdscr));
+	this->_hero = new Hero(*new AEntity());
+
+	wborder(this->_box, '|', '|', '-', '-', '*', '*', '*', '*');
+	std::cerr << this->_box << std::endl;
+
+	this->_putEntity(this->_hero->getShape(), 5, 5);
+
 	std::cout << "Init Game Constructor" << std::endl;
 
 	return ;
@@ -46,14 +55,14 @@ Game & Game::operator=( Game const & rhs )
 /******************************************************************************
 ** 							PRIVATE MEMBER FUNCTION
 ******************************************************************************/
-void 		Game::_putEntity(AEntity *entity, int x, int y)
+void 		Game::_putEntity(AEntity &entity, int x, int y)
 {
 	int i = 0;
 	int j = 0;
 
-	for (; i < entity->getSizeX(); i++) {
-		for (; j < entity->getSizeY(); j++) {
-			this->_map->setDefinition(i + x, j + y, entity->getDefinition()[i][j]);
+	for (i = 0; i < entity.getSizeX(); i++) {
+		for (j = 0; j < entity.getSizeY(); j++) {
+			this->_map->setDefinition(i + x, j + y, entity.getDefinition()[i][j]);
 		}
 	}
 }
@@ -63,13 +72,13 @@ void 		Game::_putEntity(AEntity *entity, int x, int y)
 ******************************************************************************/
 WINDOW*		Game::getBox(void)
 {
-	return *this->_box;
+	return this->_box;
 }
 
 /******************************************************************************
 ** 								GETTEUR
 ******************************************************************************/
-void 		Game::setBox(WINDOW** box)
+void 		Game::setBox(WINDOW* box)
 {
 	this->_box = box;
 
@@ -81,11 +90,17 @@ void 		Game::setBox(WINDOW** box)
 ******************************************************************************/
 void Game::printMap(void)
 {
+	freopen("error.log", "w", stderr);
 	int i = 0;
 	int j = 0;
 
-	for (; i < this->_map->getSizeX(); i++) {
-		for (; j < this->_map->getSizeY(); j++) {
+	std::cerr << this->_map->getSizeX() << std::endl;
+	std::cerr << this->_map->getSizeY() << std::endl;
+
+
+	for (i = 0; i < this->_map->getSizeX(); i++) {
+		for (j = 0; j < this->_map->getSizeY(); j++) {
+			std::cerr << this->_map->getDefinition()[i][j];
 			if (this->_map->getDefinition()[i][j] != 0) {
 				mvwaddch(this->getBox(), j, i, '@');
 			}
@@ -93,6 +108,7 @@ void Game::printMap(void)
 				mvwaddch(this->getBox(), j, i, '*');
 			}
 		}
+		std::cerr << std::endl;
 	}
 }
 
@@ -101,8 +117,8 @@ void Game::eraseMap(void)
 	int i = 0;
 	int j = 0;
 
-	for (; i < this->_map->getSizeX(); i++) {
-		for (; j < this->_map->getSizeY(); j++) {
+	for (i = 0; i < this->_map->getSizeX(); i++) {
+		for (j = 0; j < this->_map->getSizeY(); j++) {
 			if (this->_map->getDefinition()[i][j] != 0) {
 				mvwaddch(this->getBox(), j, i, ' ');
 			}

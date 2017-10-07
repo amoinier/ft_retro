@@ -4,14 +4,14 @@
 #include "AEntity.hpp"
 #include "ASpaceShip.hpp"
 
-class Hero : ASpaceShip
+class Hero : public ASpaceShip
 {
 	private :
 		Hero( void );
 
 	public :
-		Hero ( AEntity const & shape );
-		Hero ( AEntity const & shape , IWeapon *weapon );
+		Hero ( AEntity & shape );
+		Hero ( AEntity & shape , IWeapon *weapon );
 		Hero( Hero const & src );
 		~Hero( void );
 

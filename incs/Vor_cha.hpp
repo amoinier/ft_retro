@@ -9,7 +9,7 @@ class Vor_cha : public Enemy
 	private :
 
 	public :
-		Vor_cha( AEntity const & shape, IWeapon *Weapon, unsigned int color);
+		Vor_cha( AEntity & shape, IWeapon *Weapon, unsigned int color);
 		Vor_cha( Vor_cha const & src );
 		~Vor_cha( void );
 

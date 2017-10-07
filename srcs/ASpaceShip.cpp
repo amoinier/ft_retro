@@ -4,14 +4,14 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-ASpaceShip::ASpaceShip( unsigned int hp, IEntity const & shape, IWeapon * weapon):
+ASpaceShip::ASpaceShip( unsigned int hp, AEntity & shape, IWeapon * weapon):
 	_hp(hp), _hpMax(10) ,_shape(shape), _weapon(weapon)
 {
 	std::cout << __func__ <<std::endl;
 }
 
 
-ASpaceShip::ASpaceShip( unsigned int hp, IEntity const & shape):
+ASpaceShip::ASpaceShip( unsigned int hp, AEntity & shape):
 	_hp(hp), _hpMax(hp) , _shape(shape)
 {
 	std::cout << __func__ <<std::endl;
@@ -22,10 +22,10 @@ ASpaceShip::ASpaceShip(ASpaceShip const & src ): _shape(src._shape)
 	*this = src;
 }
 /******************************************************************************
-** 							DESTRUCTOR	
+** 							DESTRUCTOR
 ******************************************************************************/
 /******************************************************************************
-** 							OPERATOR OVERLOAD	
+** 							OPERATOR OVERLOAD
 ******************************************************************************/
 ASpaceShip & ASpaceShip::operator=( ASpaceShip const & rhs )
 {
@@ -41,7 +41,7 @@ ASpaceShip & ASpaceShip::operator=( ASpaceShip const & rhs )
 ** 								GETTEUR
 ******************************************************************************/
 
-IEntity  const	& 	ASpaceShip::getShape( void )
+AEntity	& 	ASpaceShip::getShape( void )
 {
 	return this->_shape;
 }
@@ -50,7 +50,7 @@ bool		ASpaceShip::isAlive( void ) const
 {
 	if (this->_hp)
 		return (true);
-	else 
+	else
 		return (false);
 }
 

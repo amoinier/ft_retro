@@ -10,17 +10,16 @@
 class Game
 {
 	private :
-		WINDOW** 	_box;
+		WINDOW* 	_box;
 		AEntity*	_map;
 		Hero* 		_hero;
 		Enemy** 	_enemy;
 		int			_enemyNbr;
 
-		void 		_putEntity(AEntity *entity, int x, int y);
+		void 		_putEntity(AEntity &entity, int x, int y);
 
 	public :
 		Game( void );
-		Game ( WINDOW** box, int x, int y );
 		Game( Game const & src );
 		~Game( void );
 
@@ -31,7 +30,7 @@ class Game
 
 		WINDOW* getBox();
 
-		void 		setBox(WINDOW** box);
+		void 		setBox(WINDOW* box);
 
 };
 #endif

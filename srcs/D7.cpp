@@ -3,7 +3,7 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-D7::D7( AEntity const & shape, IWeapon *Weapon, unsigned int color) : Enemy(shape, Weapon, 25, color)
+D7::D7( AEntity & shape, IWeapon *Weapon, unsigned int color) : Enemy(shape, Weapon, 25, color)
 {
 	return ;
 }

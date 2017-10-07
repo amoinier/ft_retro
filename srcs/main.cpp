@@ -6,7 +6,7 @@
 /*   By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/07 09:15:10 by amoinier          #+#    #+#             */
-/*   Updated: 2017/10/07 16:39:56 by amoinier         ###   ########.fr       */
+/*   Updated: 2017/10/07 17:37:51 by amoinier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,9 @@
 
 int main(void)
 {
-	std::cout << "1" << std::endl;
-	WINDOW *box;
-	std::cout << "2" << std::endl;
-	Game *game = new Game(&box, COLS, LINES);
-	std::cout << "3" << std::endl;
-	int ch = -1;
+	Game *game = new Game();
+	//int ch = -1;
 
-	initscr();
-	nodelay(stdscr, TRUE);
-	keypad(stdscr, TRUE);
-	curs_set(0);
-	std::cout << "4" << std::endl;
-
-	box = subwin(stdscr,LINES, COLS, 0, 0);
-	game->setBox(&subwin(stdscr,LINES, COLS, 0, 0));
-	wborder(game->getBox(), '|', '|', '-', '-', '*', '*', '*', '*');
-	std::cout << "5" << std::endl;
 
 	while (1) {
 		// if (ch == 401) {
@@ -48,8 +34,8 @@ int main(void)
 		// 	wborder(game->getBox(), '|', '|', '-', '-', '*', '*', '*', '*');
 		// }
 		//wprintw(game->getBox(), char *fmt ...)
-		ch = getch();
-		game->printMap();
+		//ch = getch();
+		//game->printMap();
 		wrefresh(game->getBox());
 		usleep(20000);
 	}
@@ -58,6 +44,8 @@ int main(void)
 	return (0);
 }
 
+
+// freopen("error.log", "w", stderr);
 
 //
 // int main(void) {

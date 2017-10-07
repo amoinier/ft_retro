@@ -7,8 +7,8 @@
 AEntity::AEntity(void) : _sizeX(4), _sizeY(4)
 {
 	std::cout << "Empty AEntity Constructor" << std::endl;
+	this->_entityIndex = AEntity::_index;
 	this->_initDefinition(4, 4);
-	this->_entityIndex = _index;
 
 	std::cout << __func__ <<std::endl;
 }
@@ -17,9 +17,9 @@ AEntity::AEntity(void) : _sizeX(4), _sizeY(4)
 AEntity::AEntity(int x, int y) : _sizeX(x), _sizeY(y)
 {
 	std::cout << "Init AEntity Constructor" << std::endl;
+	this->_entityIndex = AEntity::_index;
 	this->_initDefinition(x, y);
 	std::cout << "1 bis" << std::endl;
-	this->_entityIndex = _index;
 	std::cout << "2 bis" << std::endl;
 
 	std::cout << __func__ <<std::endl;
@@ -81,21 +81,18 @@ void 	AEntity::setDefinition(int x, int y, int value)
 }
 void	AEntity::_initDefinition(int x, int y)
 {
-	int i = 0;
-	int j = 0;
+	int i;
+	int j;
 
-	std::cout << "initDefinition 1" << std::endl;
 	this->_definition = new int*[x];
-	std::cout << "initDefinition 2" << std::endl;
-	for (; i < x; i++) {
+	for (i = 0; i < x; i++) {
 		this->_definition[i] = new int[y];
-		std::cout << "initDefinition 3" << std::endl;
-		for (; j < y; j++) {
+		for (j = 0; j < y; j++) {
 			this->_definition[i][j] = this->getEntityIndex();
 		}
 	}
 
-	_index++;
+	AEntity::_index++;
 }
 
 int AEntity::_index = 0;

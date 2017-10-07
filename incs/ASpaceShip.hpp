@@ -2,7 +2,7 @@
 # define ASPACESHIP_HPP
 
 #include "IWeapon.hpp"
-#include "IEntity.hpp"
+#include "AEntity.hpp"
 
 class ASpaceShip
 {
@@ -10,7 +10,7 @@ class ASpaceShip
 			unsigned int _hp;
 			unsigned int _hpMax;
 			unsigned int _speed;
-			IEntity		const &_shape; // XXX
+			AEntity		&_shape; // XXX
 			IWeapon		*_weapon; //XXX interface ???
 
 	private :
@@ -23,20 +23,20 @@ class ASpaceShip
 
 		ASpaceShip( ASpaceShip const & src );
 
-		ASpaceShip( unsigned int hp, IEntity const & shape);
-		ASpaceShip( unsigned int hp, IEntity const & shape, IWeapon * weapon);
+		ASpaceShip( unsigned int hp, AEntity & shape);
+		ASpaceShip( unsigned int hp, AEntity & shape, IWeapon * weapon);
 
 
 
 
-		void		attack ( void ) const ; // use is weapon 	
+		void		attack ( void ) const ; // use is weapon
 
 
 
 		/**
 		 * Ascessor
 		 * */
-		IEntity const & getShape( void ) ; // \XXX get the shape of the Spaceship
+		AEntity & getShape( void ) ; // \XXX get the shape of the Spaceship
 		unsigned int		getSpeed( void ) const ; //return the speed of  the Spaceship
 		bool	isAlive ( void ) const   ; // still Allive	 ?
 		///////////////////////////////////////////////////

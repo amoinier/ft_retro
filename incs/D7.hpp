@@ -9,7 +9,7 @@ class D7 : public Enemy
 		D7( void );
 
 	public :
-		D7( AEntity const & shape, IWeapon *Weapon, unsigned int color);
+		D7( AEntity & shape, IWeapon *Weapon, unsigned int color);
 		D7( D7 const & src );
 		~D7( void );
 		D7 & operator=( D7 const & rhs);
