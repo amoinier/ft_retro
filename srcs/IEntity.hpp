@@ -5,10 +5,6 @@ class IEntity
 	private :
 
 	public :
-		IEntity( void );
-		IEntity( IEntity const & src );
-		~IEntity( void );
-
-		IEntity & operator=( IEntity const & rhs);
+	virtual int**	getShape(void) const = 0;
 };
-#endif
+#endif 

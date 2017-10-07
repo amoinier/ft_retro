@@ -6,7 +6,7 @@
 #    By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/02 09:41:50 by amoinier          #+#    #+#              #
-#    Updated: 2017/10/07 10:29:06 by amoinier         ###   ########.fr        #
+#    Updated: 2017/10/07 15:19:41 by amoinier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,11 @@ NAME = ft_retro
 
 SRCDIR = srcs/
 
-SRCS = $(SRCDIR)main.cpp
+SRCS = $(shell ls srcs/)
 
 OBDIR = objs/
 
-OBJS = $(OBDIR)main.o
+OBJS = $(SRCS:.c=.o)
 
 LIB = -lncurses
 

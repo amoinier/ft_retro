@@ -9,7 +9,7 @@ Hero::Hero ( IEntity const & shape, IWeapon *weapon) : ASpaceShip(100, shape, we
 	std::cout << __func__ << std::endl;
 	return ;
 }
-Hero::Hero ( IEntity const & shape) : ASpaceShip(100 ,shape) 
+Hero::Hero ( IEntity const & shape) : ASpaceShip(100 ,shape)  
 {
 	std::cout << __func__ << std::endl;
 	return ;
@@ -21,7 +21,7 @@ Hero::Hero( Hero const & src ) : ASpaceShip( src )
 	return ;
 }
 /******************************************************************************
-** 							DESTRUCTOR	
+** 							DESTRUCTOR
 ******************************************************************************/
 Hero::~Hero( void )
 {
@@ -29,10 +29,10 @@ Hero::~Hero( void )
 	return ;
 }
 /******************************************************************************
-** 							OPERATOR OVERLOAD	
+** 							OPERATOR OVERLOAD
 ******************************************************************************/
 /*
-Hero & Hero::operator=( Hero const & rhs ) 
+Hero & Hero::operator=( Hero const & rhs )
 {
 	return ;
 }

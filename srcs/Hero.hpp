@@ -6,12 +6,12 @@
 
 class Hero : ASpaceShip
 {
-	private :
+	private : 
 		Hero( void );
 
 	public :
-		Hero ( IEntity const & shpae );
-		Hero ( IEntity const & shpae , IWeapon *weapon );
+		Hero ( IEntity const & shape );
+		Hero ( IEntity const & shape , IWeapon *weapon );
 		Hero( Hero const & src );
 		~Hero( void );
 

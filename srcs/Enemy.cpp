@@ -11,7 +11,7 @@ Enemy::Enemy(IEntity const & shape, unsigned int hp ): ASpaceShip (hp, shape), _
 /*
 Enemy::Enemy ( void )
 {
-	return ;
+	return ; 
 }
 */
 
@@ -20,14 +20,14 @@ Enemy::Enemy( Enemy const & src ) :ASpaceShip (src)
 	return ;
 }
 /******************************************************************************
-** 							DESTRUCTOR	
+** 							DESTRUCTOR
 ******************************************************************************/
 Enemy::~Enemy( void )
 {
 	return ;
 }
 /******************************************************************************
-** 							OPERATOR OVERLOAD	
+** 							OPERATOR OVERLOAD
 ******************************************************************************/
 /*
 Enemy & Enemy::operator=( Enemy const & rhs )

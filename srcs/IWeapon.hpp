@@ -5,10 +5,8 @@ class IWeapon
 	private :
 
 	public :
-		IWeapon( void );
-		IWeapon( IWeapon const & src );
-		virtual ~IWeapon( void ) = {};
+		//virtual ~IWeapon( void ) = {};
 
 		IWeapon & operator=( IWeapon const & rhs);
-};
+}; 
 #endif
