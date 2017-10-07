@@ -40,3 +40,19 @@ Enemy & Enemy::operator=( Enemy const & rhs )
 	return ;
 }
 */
+
+/******************************************************************************
+** 							PUBLIC MEMBER FUNCTION
+******************************************************************************/
+bool 	Enemy::enemyMove(int sizeX, int sizeY)
+{
+	if (this->getShape().getPosY() + this->getShape().getSizeY() - 1 < sizeY) {
+		this->getShape().setPosY(this->getShape().getPosY() + 1);
+
+		sizeX *= 1;
+		return true;
+	}
+	else {
+		return false;
+	}
+}

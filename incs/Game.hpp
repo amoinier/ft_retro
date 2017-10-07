@@ -6,6 +6,8 @@
 #include "AEntity.hpp"
 #include "Hero.hpp"
 #include "Enemy.hpp"
+#include "D7.hpp"
+#include "Vor_cha.hpp"
 
 class Game
 {
@@ -13,9 +15,10 @@ class Game
 		WINDOW* 	_box;
 		AEntity*	_map;
 		Hero* 		_hero;
-		Enemy** 	_enemy;
+		D7**	 	_enemies;
 		int			_enemyNbr;
 
+		void 		_initEnemy(void);
 		void 		_putEntity(AEntity &entity, int x, int y);
 		void 		_deleteEntity(AEntity &entity);
 		bool		_moveEntityUp(AEntity &entity);
@@ -23,8 +26,10 @@ class Game
 		bool		_moveEntityLeft(AEntity &entity);
 		bool		_moveEntityRight(AEntity &entity);
 
-	public :
 		Game( void );
+
+	public :
+		Game( int enemyNbr );
 		Game( Game const & src );
 		~Game( void );
 
@@ -34,6 +39,8 @@ class Game
 		void eraseMap(void);
 		void moveEntity(AEntity &entity, int vecteur);
 		void play(int ch);
+		void moveEnemies(void);
+
 
 		WINDOW* getBox();
 

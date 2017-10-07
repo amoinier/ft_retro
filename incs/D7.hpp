@@ -13,5 +13,6 @@ class D7 : public Enemy
 		D7( D7 const & src );
 		~D7( void );
 		D7 & operator=( D7 const & rhs);
+
 };
 #endif

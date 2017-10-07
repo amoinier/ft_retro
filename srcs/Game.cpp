@@ -3,7 +3,7 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-Game::Game (void)
+Game::Game (int enemyNbr) : _enemyNbr(enemyNbr)
 {
 	initscr();
 	nodelay(stdscr, TRUE);
@@ -12,6 +12,7 @@ Game::Game (void)
 	this->_box = stdscr;
 	this->_map = new AEntity(getmaxx(stdscr) - 1, getmaxy(stdscr) - 1);
 	this->_hero = new Hero(*new AEntity());
+	this->_initEnemy();
 
 	this->_putEntity(this->_hero->getShape(), (this->_map->getSizeX() - this->_hero->getShape().getSizeX()) / 2,
 	this->_map->getSizeY() - this->_hero->getShape().getSizeY());
@@ -42,7 +43,7 @@ Game & Game::operator=( Game const & rhs )
 	this->_box = rhs._box;
 	this->_map = rhs._map;
 	this->_hero = rhs._hero;
-	this->_enemy = rhs._enemy;
+	this->_enemies = rhs._enemies;
 	this->_enemyNbr = rhs._enemyNbr;
 
 	return *this;
@@ -51,6 +52,17 @@ Game & Game::operator=( Game const & rhs )
 /******************************************************************************
 ** 							PRIVATE MEMBER FUNCTION
 ******************************************************************************/
+void 		Game::_initEnemy(void)
+{
+	int i = 0;
+
+	this->_enemies = new D7*[this->_enemyNbr];
+	for (i = 0; i < this->_enemyNbr; i++) {
+		this->_enemies[i] = new D7(*new AEntity(), new IWeapon(), 0x0);
+		this->_putEntity(this->_enemies[i]->getShape(), ((this->_map->getSizeX() / (this->_enemyNbr)) * (i + 1)), 5);
+	}
+}
+
 void 		Game::_putEntity(AEntity &entity, int x, int y)
 {
 	int i = 0;
@@ -216,11 +228,33 @@ void 		Game::moveEntity(AEntity &entity, int vecteur)
 
 }
 
+void 		Game::moveEnemies(void)
+{
+	int i = 0;
+	i = 0;
+
+	for (i = 0; i < 10; i++) {
+		if (this->_enemies[i])
+		{
+			this->_deleteEntity(this->_enemies[i]->getShape());
+			if (this->_enemies[i]->enemyMove(this->_map->getSizeX(), this->_map->getSizeY())) {
+				this->_putEntity(this->_enemies[i]->getShape(), this->_enemies[i]->getShape().getPosX(), this->_enemies[i]->getShape().getPosY());
+			}else{
+				delete this->_enemies[i];
+				this->_enemies[i] = NULL;
+			}
+		}
+	}
+
+	return ;
+}
+
 void Game::play(int ch)
 {
-	// if (ch == 27) {
-	// 	break ;
-	// }
+	if (ch == 27) {
+		endwin();
+		return exit(0);
+	}
 	if (ch == 259) {
 		this->moveEntity(this->_hero->getShape(), 1);
 	}
@@ -233,4 +267,6 @@ void Game::play(int ch)
 	if (ch == 261) {
 		this->moveEntity(this->_hero->getShape(), 4);
 	}
+
+	this->moveEnemies();
 }
