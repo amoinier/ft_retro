@@ -56,3 +56,17 @@ bool 	Enemy::enemyMove(int sizeX, int sizeY)
 		return false;
 	}
 }
+
+bool 	Enemy::move(void)
+{
+	if (this->getShape().getSpeed() <= 0) {
+		this->getShape().setSpeed(this->getShape().getMaxSpeed());
+
+		return true;
+	}
+	else {
+		this->getShape().setSpeed(this->getShape().getSpeed() - 1);
+
+		return false;
+	}
+}

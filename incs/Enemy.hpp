@@ -24,5 +24,6 @@ class Enemy : public ASpaceShip
 		Enemy & operator=( Enemy const & rhs);
 
 		bool 	enemyMove(int sizeX, int sizeY);
+		bool 	move(void);
 };
 #endif

@@ -11,8 +11,8 @@ Game::Game (int enemyNbr) :  _enemyNbr(0), _enemyNbrMax(enemyNbr)
 	keypad(stdscr, TRUE);
 	curs_set(0);
 	this->_box = stdscr;
-	this->_map = new AEntity(getmaxx(stdscr) - 1, getmaxy(stdscr) - 1);
-	this->_hero = new Hero(*new AEntity());
+	this->_map = new AEntity(getmaxx(stdscr) - 1, getmaxy(stdscr) - 1, 0, 1);
+	this->_hero = new Hero(*new AEntity(3, 3, 1, 5));
 	this->_initEnemy();
 
 	this->_putEntity(this->_hero->getShape(), (this->_map->getSizeX() - this->_hero->getShape().getSizeX()) / 2,
@@ -89,9 +89,16 @@ void 		Game::_putEntity(AEntity &entity, int x, int y)
 
 	for (i = 0; i < entity.getSizeX(); i++) {
 		for (j = 0; j < entity.getSizeY(); j++) {
+
+			if (entity.getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] != 0) {
+				endwin();
+				return exit(0);
+			}
+
 			if (entity.getDefinition()[i][j] != 0) {
 				this->_map->setDefinition(i + x, j + y, entity.getDefinition()[i][j]);
 			}
+
 		}
 	}
 }
@@ -199,8 +206,14 @@ void Game::printMap(void)
 
 	for (i = 0; i < this->_map->getSizeX(); i++) {
 		for (j = 0; j < this->_map->getSizeY(); j++) {
-			if (this->_map->getDefinition()[i][j] != 0) {
+			if (this->_map->getDefinition()[i][j] == 1) {
+				mvwaddch(this->getBox(), j, i, '#');
+			}
+			else if (this->_map->getDefinition()[i][j] == 2) {
 				mvwaddch(this->getBox(), j, i, '@');
+			}
+			else if (this->_map->getDefinition()[i][j] == 3) {
+				mvwaddch(this->getBox(), j, i, '*');
 			}
 			else {
 				mvwaddch(this->getBox(), j, i, ' ');
@@ -259,7 +272,7 @@ void 		Game::moveEnemies(void)
 	int i = 0;
 
 	for (i = 0; i < this->_enemyNbrMax; i++) {
-		if (this->_enemies[i] != NULL && this->_enemies[i])
+		if (this->_enemies[i] != NULL && this->_enemies[i]->move())
 		{
 			this->_deleteEntity(this->_enemies[i]->getShape());
 			if (this->_enemies[i]->enemyMove(this->_map->getSizeX(), this->_map->getSizeY())) {

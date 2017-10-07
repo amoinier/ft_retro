@@ -13,10 +13,11 @@ class AEntity : public IEntity
 		int				_sizeY;
 		int				_posX;
 		int				_posY;
+		int				_maxSpeed;
+		int				_speed;
 
 	private :
 		void			_initDefinition(int x, int y);
-		static int 		_index;
 
 
 
@@ -28,7 +29,7 @@ class AEntity : public IEntity
 
 		AEntity( AEntity const & src );
 
-		AEntity( int x, int y );
+		AEntity( int x, int y, int entityIndex, int maxSpeed);
 
 		int**	getDefinition() const;
 		int		getEntityIndex(void) const;
@@ -36,12 +37,14 @@ class AEntity : public IEntity
 		int		getSizeY(void) const;
 		int		getPosX(void) const;
 		int		getPosY(void) const;
+		int		getMaxSpeed(void) const;
+		int		getSpeed(void) const;
 
 		void 	setDefinition(int x, int y, int value);
 		void 	setPosX(int x);
 		void 	setPosY(int y);
-
-
+		void 	setMaxSpeed(int maxSpeed);
+		void 	setSpeed(int speed);
 
 
 

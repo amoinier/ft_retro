@@ -4,17 +4,16 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-AEntity::AEntity(void) : _sizeX(4), _sizeY(4)
+AEntity::AEntity(void) : _sizeX(4), _sizeY(4), _maxSpeed(10), _speed(10)
 {
-	this->_entityIndex = AEntity::_index;
+	this->_entityIndex = -1;
 	this->_initDefinition(4, 4);
 
 }
 
 
-AEntity::AEntity(int x, int y) : _sizeX(x), _sizeY(y)
+AEntity::AEntity(int x, int y, int entityIndex, int maxSpeed) :  _entityIndex(entityIndex), _sizeX(x), _sizeY(y), _maxSpeed(maxSpeed), _speed(maxSpeed)
 {
-	this->_entityIndex = AEntity::_index;
 	this->_initDefinition(x, y);
 }
 
@@ -72,6 +71,17 @@ int		AEntity::getPosY(void) const
 	return this->_posY;
 }
 
+int		AEntity::getSpeed(void) const
+{
+	return this->_speed;
+}
+
+
+int		AEntity::getMaxSpeed(void) const
+{
+	return this->_maxSpeed;
+}
+
 
 /******************************************************************************
 ** 								SETTEUR
@@ -90,6 +100,19 @@ void 	AEntity::setPosY(int y)
 	return ;
 }
 
+void 	AEntity::setSpeed(int speed)
+{
+	this->_speed = speed;
+
+	return ;
+}
+
+void 	AEntity::setMaxSpeed(int maxSpeed)
+{
+	this->_maxSpeed = maxSpeed;
+
+	return ;
+}
 
 void 	AEntity::setDefinition(int x, int y, int value)
 {
@@ -110,7 +133,4 @@ void	AEntity::_initDefinition(int x, int y)
 		}
 	}
 
-	AEntity::_index++;
 }
-
-int AEntity::_index = 0;
