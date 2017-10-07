@@ -72,7 +72,7 @@ void 		Game::_newWave(void)
 	for (int i = 0; i < this->_enemyNbr; i++) {
 		if (!this->_enemies[i]) {
 			this->_enemies[i] = (this->*Func[rand() % 2])();
-			this->_putEntity(this->_enemies[i]->getShape(), ((this->_map->getSizeX() / (this->_enemyNbr)) * (i)) + 1, 5);
+			this->_putEntity(this->_enemies[i]->getShape(), ((this->_map->getSizeX() / (this->_enemyNbr)) * (i)) + 1, 0);
 		}
 	}
 
