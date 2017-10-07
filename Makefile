@@ -6,7 +6,7 @@
 #    By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/02 09:41:50 by amoinier          #+#    #+#              #
-#    Updated: 2017/10/07 16:19:47 by amoinier         ###   ########.fr        #
+#    Updated: 2017/10/07 22:50:50 by amoinier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ SRCS = 	$(SRCDIR)main.cpp \
 		$(SRCDIR)Game.cpp \
 		$(SRCDIR)Hero.cpp \
 		$(SRCDIR)Vor_cha.cpp \
+		$(SRCDIR)Weapon.cpp \
+		$(SRCDIR)Bullet.cpp
 
 OBDIR = objs/
 
@@ -34,7 +36,9 @@ OBJS = 	main.o \
 		Enemy.o \
 		Game.o \
 		Hero.o \
-		Vor_cha.o
+		Vor_cha.o \
+		Weapon.o \
+		Bullet.o
 
 OBCC = $(addprefix $(OBDIR),$(OBJS))
 

@@ -3,7 +3,7 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-Game::Game (int enemyNbr) :  _enemyNbr(0), _enemyNbrMax(enemyNbr)
+Game::Game (int enemyNbr) :  _enemyNbr(0), _enemyNbrMax(enemyNbr), _bulletList(NULL)
 {
 	std::srand(std::time(NULL) + std::clock());
 	initscr();
@@ -12,10 +12,10 @@ Game::Game (int enemyNbr) :  _enemyNbr(0), _enemyNbrMax(enemyNbr)
 	curs_set(0);
 	this->_box = stdscr;
 	this->_map = new AEntity(getmaxx(stdscr) - 1, getmaxy(stdscr) - 1, 0, 1);
-	this->_hero = new Hero(*new AEntity(3, 3, 1, 5));
+	this->_hero = new Hero(*new AEntity(3, 3, 1, 5), new Weapon());
 	this->_initEnemy();
 
-	this->_putEntity(this->_hero->getShape(), (this->_map->getSizeX() - this->_hero->getShape().getSizeX()) / 2,
+	this->_putEntity(*this->_hero, (this->_map->getSizeX() - this->_hero->getShape().getSizeX()) / 2,
 	this->_map->getSizeY() - this->_hero->getShape().getSizeY());
 
 	std::cout << "Init Game Constructor" << std::endl;
@@ -72,31 +72,56 @@ void 		Game::_newWave(void)
 	for (int i = 0; i < this->_enemyNbr; i++) {
 		if (!this->_enemies[i]) {
 			this->_enemies[i] = (this->*Func[rand() % 2])();
-			this->_putEntity(this->_enemies[i]->getShape(), ((this->_map->getSizeX() / (this->_enemyNbr)) * (i)) + 1, 0);
+			this->_putEntity(*this->_enemies[i], ((this->_map->getSizeX() / (this->_enemyNbr)) * (i)) + 1, 0);
 		}
 	}
 
 	return ;
 }
 
-void 		Game::_putEntity(AEntity &entity, int x, int y)
+void 		Game::_putEntity(Hero &hero, int x, int y)
 {
 	int i = 0;
 	int j = 0;
 
-	entity.setPosX(x);
-	entity.setPosY(y);
+	hero.getShape().setPosX(x);
+	hero.getShape().setPosY(y);
 
-	for (i = 0; i < entity.getSizeX(); i++) {
-		for (j = 0; j < entity.getSizeY(); j++) {
+	for (i = 0; i < hero.getShape().getSizeX(); i++) {
+		for (j = 0; j < hero.getShape().getSizeY(); j++) {
 
-			if (entity.getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] != 0) {
+			if (hero.getShape().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] != 0) { //TOCHANGE
+
 				endwin();
 				return exit(0);
 			}
 
-			if (entity.getDefinition()[i][j] != 0) {
-				this->_map->setDefinition(i + x, j + y, entity.getDefinition()[i][j]);
+			if (hero.getShape().getDefinition()[i][j] != 0) {
+				this->_map->setDefinition(i + x, j + y, hero.getShape().getDefinition()[i][j]);
+			}
+
+		}
+	}
+}
+
+void 		Game::_putEntity(Enemy &enemy, int x, int y)
+{
+	int i = 0;
+	int j = 0;
+
+	enemy.getShape().setPosX(x);
+	enemy.getShape().setPosY(y);
+
+	for (i = 0; i < enemy.getShape().getSizeX(); i++) {
+		for (j = 0; j < enemy.getShape().getSizeY(); j++) {
+
+			if (enemy.getShape().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] != 0) { //TOCHANGE
+				endwin();
+				return exit(0);
+			}
+
+			if (enemy.getShape().getDefinition()[i][j] != 0) {
+				this->_map->setDefinition(i + x, j + y, enemy.getShape().getDefinition()[i][j]);
 			}
 
 		}
@@ -169,12 +194,12 @@ bool 		Game::_moveEntityRight(AEntity &entity)
 
 Enemy*			Game::_callD7(void) const
 {
-	return new D7(new IWeapon(), 0x0);
+	return new D7(new Weapon(), 0x0);
 }
 
 Enemy*	Game::_callVor_cha(void) const
 {
-	return new Vor_cha(new IWeapon(), 0x0);
+	return new Vor_cha(new Weapon(), 0x0);
 }
 
 
@@ -236,32 +261,32 @@ void Game::eraseMap(void)
 	}
 }
 
-void 		Game::moveEntity(AEntity &entity, int vecteur)
+void 		Game::moveEntity(Hero &hero, int vecteur)
 {
-	this->_deleteEntity(entity);
+	this->_deleteEntity(hero.getShape());
 
 	switch (vecteur)
 	{
 	case 1: // haut
-		this->_moveEntityUp(entity);
+		this->_moveEntityUp(hero.getShape());
 		break;
 
 	case 2: // bas
-		this->_moveEntityDown(entity);
+		this->_moveEntityDown(hero.getShape());
 		break;
 
 	case 3: // gauche
-		this->_moveEntityLeft(entity);
+		this->_moveEntityLeft(hero.getShape());
 		break;
 
 	case 4: // droite
-		this->_moveEntityRight(entity);
+		this->_moveEntityRight(hero.getShape());
 		break;
 	default:
 		break;
 	}
 
-	this->_putEntity(entity, entity.getPosX(), entity.getPosY());
+	this->_putEntity(hero, hero.getShape().getPosX(), hero.getShape().getPosY());
 
 	return ;
 
@@ -276,7 +301,7 @@ void 		Game::moveEnemies(void)
 		{
 			this->_deleteEntity(this->_enemies[i]->getShape());
 			if (this->_enemies[i]->enemyMove(this->_map->getSizeX(), this->_map->getSizeY())) {
-				this->_putEntity(this->_enemies[i]->getShape(), this->_enemies[i]->getShape().getPosX(), this->_enemies[i]->getShape().getPosY());
+				this->_putEntity(*this->_enemies[i], this->_enemies[i]->getShape().getPosX(), this->_enemies[i]->getShape().getPosY());
 			}else{
 				this->_enemyNbr--;
 				delete this->_enemies[i];
@@ -288,6 +313,26 @@ void 		Game::moveEnemies(void)
 	return ;
 }
 
+void Game::useWeapon(void)
+{
+	Bullet *tmp = this->_bulletList;
+
+	if (!tmp) {
+		this->_bulletList = this->_hero->getWeapon()->shoot();
+
+		return ;
+	}
+
+	while (tmp->next) {
+		tmp = tmp->getNext();
+	}
+
+	tmp->setNext(this->_hero->getWeapon()->shoot(1));
+
+	return ;
+}
+
+
 void Game::play(int ch)
 {
 	if (ch == 27) {
@@ -295,16 +340,20 @@ void Game::play(int ch)
 		return exit(0);
 	}
 	if (ch == 259) {
-		this->moveEntity(this->_hero->getShape(), 1);
+		this->moveEntity(*this->_hero, 1);
 	}
 	if (ch == 258) {
-		this->moveEntity(this->_hero->getShape(), 2);
+		this->moveEntity(*this->_hero, 2);
 	}
 	if (ch == 260) {
-		this->moveEntity(this->_hero->getShape(), 3);
+		this->moveEntity(*this->_hero, 3);
 	}
 	if (ch == 261) {
-		this->moveEntity(this->_hero->getShape(), 4);
+		this->moveEntity(*this->_hero, 4);
+	}
+
+	if (ch == ord(' ')) {
+
 	}
 
 	if (this->_enemyNbr == 0) {

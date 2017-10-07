@@ -1,7 +1,6 @@
 #ifndef AENTITY_HPP
 # define AENTITY_HPP
 
-#include "IWeapon.hpp"
 #include "IEntity.hpp"
 
 class AEntity : public IEntity

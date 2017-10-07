@@ -2,7 +2,7 @@
 # define ENEMY_HPP
 
 #include "ASpaceShip.hpp"
-#include "IWeapon.hpp"
+#include "Weapon.hpp"
 #include "AEntity.hpp"
 
 class Enemy : public ASpaceShip
@@ -14,8 +14,8 @@ class Enemy : public ASpaceShip
 		Enemy(void );
 
 	public :
-		Enemy( AEntity & shape, IWeapon *weapon, unsigned int hp, unsigned int color );
-		//Enemy( AEntity const & shape, IWeapon *Weapon);
+		Enemy( AEntity & shape, Weapon *weapon, unsigned int hp, unsigned int color );
+		//Enemy( AEntity const & shape, Weapon *Weapon);
 		Enemy( AEntity & shape, unsigned int hp);
 		//Enemy( AEntity const & shape, unsigned int hp);
 		Enemy( Enemy const & src );

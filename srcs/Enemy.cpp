@@ -4,7 +4,7 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-Enemy::Enemy( AEntity & shape, IWeapon *weapon, unsigned int hp, unsigned int color ): ASpaceShip(hp, shape, weapon), _color(color)
+Enemy::Enemy( AEntity & shape, Weapon *weapon, unsigned int hp, unsigned int color ): ASpaceShip(hp, shape, weapon), _color(color)
 {
 
 }

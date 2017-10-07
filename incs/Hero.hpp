@@ -11,7 +11,7 @@ class Hero : public ASpaceShip
 
 	public :
 		Hero ( AEntity & shape );
-		Hero ( AEntity & shape , IWeapon *weapon );
+		Hero ( AEntity & shape , Weapon *weapon );
 		Hero( Hero const & src );
 		~Hero( void );
 

@@ -4,7 +4,7 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-Hero::Hero ( AEntity & shape, IWeapon *weapon) : ASpaceShip(100, shape, weapon)
+Hero::Hero ( AEntity & shape, Weapon *weapon) : ASpaceShip(100, shape, weapon)
 {
 	std::cout << __func__ << std::endl;
 	return ;

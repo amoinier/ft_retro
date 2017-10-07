@@ -4,7 +4,7 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-ASpaceShip::ASpaceShip( unsigned int hp, AEntity & shape, IWeapon * weapon):
+ASpaceShip::ASpaceShip( unsigned int hp, AEntity & shape, Weapon * weapon):
 	_hp(hp), _hpMax(10) ,_shape(shape), _weapon(weapon)
 {
 }
@@ -30,7 +30,6 @@ ASpaceShip & ASpaceShip::operator=( ASpaceShip const & rhs )
 	this->_hp = rhs._hp;
 	this->_weapon = rhs._weapon;
 	this->_hpMax = rhs._hpMax;
-	this->_speed = rhs._speed;
 	return *this;
 }
 
@@ -39,7 +38,7 @@ ASpaceShip & ASpaceShip::operator=( ASpaceShip const & rhs )
 ** 								GETTEUR
 ******************************************************************************/
 
-AEntity	& 	ASpaceShip::getShape( void )
+AEntity	& 	ASpaceShip::getShape( void ) const
 {
 	return this->_shape;
 }
@@ -52,9 +51,9 @@ bool		ASpaceShip::isAlive( void ) const
 		return (false);
 }
 
-unsigned int	ASpaceShip::getSpeed(void) const
+Weapon*		ASpaceShip::getWeapon(void) const
 {
-	return (this->_speed);
+	return this->_weapon;
 }
 
 /******************************************************************************
@@ -66,4 +65,11 @@ void		ASpaceShip::repaired ( unsigned int  hp)
 	this->_hp = hp;
 	if (this->_hpMax > this->_hp)
 		this->_hp = this->_hpMax;
+}
+
+void		ASpaceShip::setWeapon(Weapon* weapon)
+{
+	this->_weapon = weapon;
+
+	return ;
 }
