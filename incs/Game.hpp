@@ -28,6 +28,9 @@ class Game
 		bool		_moveEntityLeft(AEntity &entity);
 		bool		_moveEntityRight(AEntity &entity);
 
+		Enemy*			_callD7(void) const;
+		Enemy*	_callVor_cha(void) const;
+
 		Game( void );
 
 	public :

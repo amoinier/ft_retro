@@ -67,10 +67,11 @@ void 		Game::_initEnemy(void)
 void 		Game::_newWave(void)
 {
 	this->_enemyNbr = rand() % this->_enemyNbrMax;
+	Enemy* (Game::*Func[])(void) const = {&Game::_callD7, &Game::_callVor_cha};
 
 	for (int i = 0; i < this->_enemyNbr; i++) {
 		if (!this->_enemies[i]) {
-			this->_enemies[i] = new D7(new IWeapon(), 0x0);
+			this->_enemies[i] = (this->*Func[rand() % 2])();
 			this->_putEntity(this->_enemies[i]->getShape(), ((this->_map->getSizeX() / (this->_enemyNbr)) * (i)) + 1, 5);
 		}
 	}
@@ -159,6 +160,16 @@ bool 		Game::_moveEntityRight(AEntity &entity)
 	}
 }
 
+Enemy*			Game::_callD7(void) const
+{
+	return new D7(new IWeapon(), 0x0);
+}
+
+Enemy*	Game::_callVor_cha(void) const
+{
+	return new Vor_cha(new IWeapon(), 0x0);
+}
+
 
 /******************************************************************************
 ** 								GETTEUR
@@ -169,7 +180,7 @@ WINDOW*		Game::getBox(void)
 }
 
 /******************************************************************************
-** 								GETTEUR
+** 								SETTEUR
 ******************************************************************************/
 void 		Game::setBox(WINDOW* box)
 {
