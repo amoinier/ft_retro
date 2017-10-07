@@ -70,9 +70,35 @@ int		AEntity::getSizeY(void) const
 	return this->_sizeY;
 }
 
+int		AEntity::getPosX(void) const
+{
+	return this->_posX;
+}
+
+int		AEntity::getPosY(void) const
+{
+	return this->_posY;
+}
+
+
 /******************************************************************************
 ** 								SETTEUR
 ******************************************************************************/
+void 	AEntity::setPosX(int x)
+{
+	this->_posX = x;
+
+	return ;
+}
+
+void 	AEntity::setPosY(int y)
+{
+	this->_posY = y;
+
+	return ;
+}
+
+
 void 	AEntity::setDefinition(int x, int y, int value)
 {
 	this->_definition[x][y] =  value;

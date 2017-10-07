@@ -17,6 +17,11 @@ class Game
 		int			_enemyNbr;
 
 		void 		_putEntity(AEntity &entity, int x, int y);
+		void 		_deleteEntity(AEntity &entity);
+		bool		_moveEntityUp(AEntity &entity);
+		bool		_moveEntityDown(AEntity &entity);
+		bool		_moveEntityLeft(AEntity &entity);
+		bool		_moveEntityRight(AEntity &entity);
 
 	public :
 		Game( void );
@@ -27,6 +32,8 @@ class Game
 
 		void printMap(void);
 		void eraseMap(void);
+		void moveEntity(AEntity &entity, int vecteur);
+		void play(int ch);
 
 		WINDOW* getBox();
 

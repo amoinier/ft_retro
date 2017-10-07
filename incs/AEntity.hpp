@@ -11,6 +11,8 @@ class AEntity : public IEntity
 		int**			_definition;
 		int				_sizeX;
 		int				_sizeY;
+		int				_posX;
+		int				_posY;
 
 	private :
 		void			_initDefinition(int x, int y);
@@ -32,8 +34,12 @@ class AEntity : public IEntity
 		int		getEntityIndex(void) const;
 		int		getSizeX(void) const;
 		int		getSizeY(void) const;
+		int		getPosX(void) const;
+		int		getPosY(void) const;
 
 		void 	setDefinition(int x, int y, int value);
+		void 	setPosX(int x);
+		void 	setPosY(int y);
 
 
 
