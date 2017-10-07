@@ -31,5 +31,7 @@ class Game
 
 		WINDOW* getBox();
 
+		void 		setBox(WINDOW** box);
+
 };
 #endif

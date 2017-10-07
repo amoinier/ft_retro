@@ -67,6 +67,16 @@ WINDOW*		Game::getBox(void)
 }
 
 /******************************************************************************
+** 								GETTEUR
+******************************************************************************/
+void 		Game::setBox(WINDOW** box)
+{
+	this->_box = box;
+
+	return ;
+}
+
+/******************************************************************************
 ** 							PUBLIC MEMBER FUNCTION
 ******************************************************************************/
 void Game::printMap(void)
@@ -77,7 +87,10 @@ void Game::printMap(void)
 	for (; i < this->_map->getSizeX(); i++) {
 		for (; j < this->_map->getSizeY(); j++) {
 			if (this->_map->getDefinition()[i][j] != 0) {
-				mvwaddch(*this->_box, j, i, '@');
+				mvwaddch(this->getBox(), j, i, '@');
+			}
+			else {
+				mvwaddch(this->getBox(), j, i, '*');
 			}
 		}
 	}
@@ -91,7 +104,10 @@ void Game::eraseMap(void)
 	for (; i < this->_map->getSizeX(); i++) {
 		for (; j < this->_map->getSizeY(); j++) {
 			if (this->_map->getDefinition()[i][j] != 0) {
-				mvwaddch(*this->_box, j, i, ' ');
+				mvwaddch(this->getBox(), j, i, ' ');
+			}
+			else {
+				mvwaddch(this->getBox(), j, i, '=');
 			}
 		}
 	}

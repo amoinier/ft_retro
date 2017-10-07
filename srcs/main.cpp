@@ -6,7 +6,7 @@
 /*   By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/07 09:15:10 by amoinier          #+#    #+#             */
-/*   Updated: 2017/10/07 16:18:31 by amoinier         ###   ########.fr       */
+/*   Updated: 2017/10/07 16:39:56 by amoinier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,24 @@ int main(void)
 	std::cout << "4" << std::endl;
 
 	box = subwin(stdscr,LINES, COLS, 0, 0);
-	wborder(box, '|', '|', '-', '-', '*', '*', '*', '*');
+	game->setBox(&subwin(stdscr,LINES, COLS, 0, 0));
+	wborder(game->getBox(), '|', '|', '-', '-', '*', '*', '*', '*');
 	std::cout << "5" << std::endl;
 
 	while (1) {
-		if (ch == 401) {
-			box = subwin(stdscr,LINES, COLS, 0, 0);
-			wborder(box, '|', '|', '-', '-', '*', '*', '*', '*');
-		}
-
+		// if (ch == 401) {
+		// 	box = subwin(stdscr,LINES, COLS, 0, 0);
+		// 	game->setBox(&box);
+		// 	wborder(game->getBox(), '|', '|', '-', '-', '*', '*', '*', '*');
+		// }
+		//wprintw(game->getBox(), char *fmt ...)
 		ch = getch();
 		game->printMap();
 		wrefresh(game->getBox());
-		game->eraseMap();
+		usleep(20000);
 	}
 
+	endwin();
 	return (0);
 }
 
