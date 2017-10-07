@@ -6,7 +6,7 @@
 #    By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/02 09:41:50 by amoinier          #+#    #+#              #
-#    Updated: 2017/10/07 09:51:32 by abary            ###   ########.fr        #
+#    Updated: 2017/10/07 10:29:06 by amoinier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ $(NAME): $(OBJS)
 	clang++ $(FLAG) $(OBJS) $(LIB) -o $(NAME)
 
 $(OBDIR)%.o: $(SRCDIR)%.cpp
-	mkdir $(OBDIR)
+	mkdir -p $(OBDIR)
 	clang++ $(FLAG) $(SRCS) -c -o $@
 
 clean:
