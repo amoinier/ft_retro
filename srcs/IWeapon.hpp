@@ -7,7 +7,7 @@ class IWeapon
 	public :
 		IWeapon( void );
 		IWeapon( IWeapon const & src );
-		~IWeapon( void );
+		virtual ~IWeapon( void ) = {};
 
 		IWeapon & operator=( IWeapon const & rhs);
 };

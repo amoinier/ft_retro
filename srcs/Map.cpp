@@ -1,27 +1,27 @@
-#include "IWeapon.hpp"
+#include "Map.hpp"
 /******************************************************************************
 ** 								CONSTRUCTOR
 ******************************************************************************/
-IWeapon::IWeapon ( void )
+Map::Map ( void )
 {
 	return ;
 }
 
-IWeapon::IWeapon( IWeapon const & src )
+Map::Map( Map const & src )
 {
 	return ;
 }
 /******************************************************************************
 ** 							DESTRUCTOR	
 ******************************************************************************/
-IWeapon::~IWeapon( void )
+Map::~Map( void )
 {
 	return ;
 }
 /******************************************************************************
 ** 							OPERATOR OVERLOAD	
 ******************************************************************************/
-IWeapon & IWeapon::operator=( IWeapon const & rhs )
+Map & Map::operator=( Map const & rhs )
 {
 	return ;
 }
