@@ -6,9 +6,9 @@
 
 AEntity::AEntity(void) : _sizeX(4), _sizeY(4)
 {
-	this->_definition = new int[4][4];
-	this->_entityIndex = index;
-	this->_initDefinition();
+	std::cout << "Empty AEntity Constructor" << std::endl;
+	this->_initDefinition(4, 4);
+	this->_entityIndex = _index;
 
 	std::cout << __func__ <<std::endl;
 }
@@ -16,14 +16,18 @@ AEntity::AEntity(void) : _sizeX(4), _sizeY(4)
 
 AEntity::AEntity(int x, int y) : _sizeX(x), _sizeY(y)
 {
-	this->_definition = new int[x][y];
-	this->_initDefinition();
+	std::cout << "Init AEntity Constructor" << std::endl;
+	this->_initDefinition(x, y);
+	std::cout << "1 bis" << std::endl;
+	this->_entityIndex = _index;
+	std::cout << "2 bis" << std::endl;
 
 	std::cout << __func__ <<std::endl;
 }
- 
+
 AEntity::AEntity(AEntity const & src )
 {
+	std::cout << "Copy AEntity Constructor" << std::endl;
 	*this = src;
 }
 /******************************************************************************
@@ -56,12 +60,12 @@ int		AEntity::getEntityIndex(void) const
 	return this->_entityIndex;
 }
 
-int		getSizeX(void) const
+int		AEntity::getSizeX(void) const
 {
 	return this->_sizeX;
 }
 
-int		getSizeY(void) const
+int		AEntity::getSizeY(void) const
 {
 	return this->_sizeY;
 }
@@ -69,13 +73,24 @@ int		getSizeY(void) const
 /******************************************************************************
 ** 								SETTEUR
 ******************************************************************************/
+void 	AEntity::setDefinition(int x, int y, int value)
+{
+	this->_definition[x][y] =  value;
+
+	return ;
+}
 void	AEntity::_initDefinition(int x, int y)
 {
 	int i = 0;
 	int j = 0;
 
-	for (i; i < x; x++) {
-		for (j; j < y; y++) {
+	std::cout << "initDefinition 1" << std::endl;
+	this->_definition = new int*[x];
+	std::cout << "initDefinition 2" << std::endl;
+	for (; i < x; i++) {
+		this->_definition[i] = new int[y];
+		std::cout << "initDefinition 3" << std::endl;
+		for (; j < y; j++) {
 			this->_definition[i][j] = this->getEntityIndex();
 		}
 	}
@@ -83,4 +98,4 @@ void	AEntity::_initDefinition(int x, int y)
 	_index++;
 }
 
-int _index = 0;
+int AEntity::_index = 0;

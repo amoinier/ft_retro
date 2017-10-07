@@ -4,18 +4,22 @@
 ******************************************************************************/
 Game::Game ( void )
 {
-	return ;
-}
-
-Game::Game ( WINDOW** box, int x, int y ):
-	_box(box), _map(new AEntity(x, y)), _Hero(new Hero(new AEntity())
-{
+	std::cout << "Empty Game Constructor" << std::endl;
 
 	return ;
 }
 
-Game::Game( Game const & src ) 
+Game::Game ( WINDOW** box, int x, int y ):	_box(box), _map(new AEntity(x, y)), _hero(new Hero(*new AEntity()))
 {
+	std::cout << "Init Game Constructor" << std::endl;
+
+	return ;
+}
+
+Game::Game( Game const & src )
+{
+	std::cout << "Copy Game Constructor" << std::endl;
+	*this = src;
 	return ;
 }
 /******************************************************************************
@@ -30,7 +34,13 @@ Game::~Game( void )
 ******************************************************************************/
 Game & Game::operator=( Game const & rhs )
 {
-	return ;
+	this->_box = rhs._box;
+	this->_map = rhs._map;
+	this->_hero = rhs._hero;
+	this->_enemy = rhs._enemy;
+	this->_enemyNbr = rhs._enemyNbr;
+
+	return *this;
 }
 
 /******************************************************************************
@@ -41,9 +51,9 @@ void 		Game::_putEntity(AEntity *entity, int x, int y)
 	int i = 0;
 	int j = 0;
 
-	for (i; i < entity.getSizeX(); i++) {
-		for (j; j < entity.getSizeY(); j++) {
-			this->_map[i + x][j + y] = entity[i][j];
+	for (; i < entity->getSizeX(); i++) {
+		for (; j < entity->getSizeY(); j++) {
+			this->_map->setDefinition(i + x, j + y, entity->getDefinition()[i][j]);
 		}
 	}
 }
@@ -64,10 +74,10 @@ void Game::printMap(void)
 	int i = 0;
 	int j = 0;
 
-	for (i; i < this->_map->getSizeX(); i++) {
-		for (j; j < this->_map->getSizeY(); j++) {
-			if (this->_map->_definition[i][j] != 0) {
-				mvwaddch(this->_box, j, i, '@');
+	for (; i < this->_map->getSizeX(); i++) {
+		for (; j < this->_map->getSizeY(); j++) {
+			if (this->_map->getDefinition()[i][j] != 0) {
+				mvwaddch(*this->_box, j, i, '@');
 			}
 		}
 	}
@@ -78,10 +88,10 @@ void Game::eraseMap(void)
 	int i = 0;
 	int j = 0;
 
-	for (i; i < this->_map->getSizeX(); i++) {
-		for (j; j < this->_map->getSizeY(); j++) {
-			if (this->_map->_definition[i][j] != 0) {
-				mvwaddch(this->_box, j, i, ' ');
+	for (; i < this->_map->getSizeX(); i++) {
+		for (; j < this->_map->getSizeY(); j++) {
+			if (this->_map->getDefinition()[i][j] != 0) {
+				mvwaddch(*this->_box, j, i, ' ');
 			}
 		}
 	}

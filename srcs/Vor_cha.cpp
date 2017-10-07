@@ -2,7 +2,7 @@
 /******************************************************************************
 ** 								CONSTRUCTOR
 ******************************************************************************/
-Vor_cha::Vor_cha ( IEntity const & shape, IWeapon * Weapon, unsigned int color): Enemy(shape, Weapon, 50, color)
+Vor_cha::Vor_cha ( AEntity const & shape, IWeapon * Weapon, unsigned int color): Enemy(shape, Weapon, 50, color)
 {
 	return ;
 }
@@ -14,14 +14,14 @@ Vor_cha::Vor_cha( Vor_cha const & src )
 }
 */
 /******************************************************************************
-** 							DESTRUCTOR	
+** 							DESTRUCTOR
 ******************************************************************************/
 Vor_cha::~Vor_cha( void )
 {
 	return ;
 }
 /******************************************************************************
-** 							OPERATOR OVERLOAD	
+** 							OPERATOR OVERLOAD
 ******************************************************************************/
 /*
 Vor_cha & Vor_cha::operator=( Vor_cha const & rhs )

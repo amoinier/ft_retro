@@ -5,6 +5,6 @@ class IEntity
 	private :
 
 	public :
-	virtual int**	getShape(void) const = 0;
+	//virtual int**	getShape(void) const = 0;
 };
-#endif 
+#endif

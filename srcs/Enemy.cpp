@@ -4,14 +4,19 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-Enemy::Enemy(IEntity const & shape, unsigned int hp ): ASpaceShip (hp, shape), _color(0x0) //blank by default
+Enemy::Enemy( AEntity const & shape, IWeapon *weapon, unsigned int hp, unsigned int color ): ASpaceShip(hp, shape, weapon), _color(color)
+{
+
+}
+
+Enemy::Enemy(AEntity const & shape, unsigned int hp ): ASpaceShip (hp, shape), _color(0x0) //blank by default
 {
 
 }
 /*
 Enemy::Enemy ( void )
 {
-	return ; 
+	return ;
 }
 */
 

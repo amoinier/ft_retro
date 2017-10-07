@@ -1,6 +1,8 @@
 #ifndef GAME_MAP
 # define GAME_MAP
 
+#include <ncurses.h>
+#include <iostream>
 #include "AEntity.hpp"
 #include "Hero.hpp"
 #include "Enemy.hpp"
@@ -11,7 +13,7 @@ class Game
 		WINDOW** 	_box;
 		AEntity*	_map;
 		Hero* 		_hero;
-		Enemy** 	_enemy; 
+		Enemy** 	_enemy;
 		int			_enemyNbr;
 
 		void 		_putEntity(AEntity *entity, int x, int y);

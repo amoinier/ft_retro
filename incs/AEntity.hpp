@@ -6,7 +6,7 @@
 
 class AEntity : public IEntity
 {
-	protected : 
+	protected :
 		int				_entityIndex;
 		int**			_definition;
 		int				_sizeX;
@@ -22,7 +22,7 @@ class AEntity : public IEntity
 
 		AEntity( void );
 
-		virtual ~AEntity( void ) {};
+		~AEntity( void );
 
 		AEntity( AEntity const & src );
 
@@ -33,7 +33,7 @@ class AEntity : public IEntity
 		int		getSizeX(void) const;
 		int		getSizeY(void) const;
 
-
+		void 	setDefinition(int x, int y, int value);
 
 
 

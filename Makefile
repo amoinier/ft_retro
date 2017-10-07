@@ -6,7 +6,7 @@
 #    By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/02 09:41:50 by amoinier          #+#    #+#              #
-#    Updated: 2017/10/07 15:23:45 by amoinier         ###   ########.fr        #
+#    Updated: 2017/10/07 16:19:47 by amoinier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,26 +16,40 @@ NAME = ft_retro
 
 SRCDIR = srcs/
 
-SRCS = $(shell ls srcs/)
+SRCS = 	$(SRCDIR)main.cpp \
+		$(SRCDIR)AEntity.cpp \
+		$(SRCDIR)ASpaceShip.cpp \
+		$(SRCDIR)D7.cpp \
+		$(SRCDIR)Enemy.cpp \
+		$(SRCDIR)Game.cpp \
+		$(SRCDIR)Hero.cpp \
+		$(SRCDIR)Vor_cha.cpp \
 
 OBDIR = objs/
 
-OBJS = $(OBDIR)$(SRCS:.cpp=.o)
+OBJS = 	main.o \
+		AEntity.o \
+		ASpaceShip.o \
+		D7.o \
+		Enemy.o \
+		Game.o \
+		Hero.o \
+		Vor_cha.o
+
+OBCC = $(addprefix $(OBDIR),$(OBJS))
 
 LIB = -lncurses
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	clang++ $(FLAG) $(OBJS) -I incs/ $(LIB) -o $(NAME)
+$(NAME): $(OBCC)
+	clang++ $(FLAG) $(OBCC) -I incs/ $(LIB) -o $(NAME)
 
 $(OBDIR)%.o: $(SRCDIR)%.cpp
-	mkdir -p $(OBDIR)
-	clang++ $(FLAG) $(SRCS) -c -o $@
+	clang++ $(FLAG) -I incs/ $^ -c -o $@
 
 clean:
-	rm -f $(OBJS)
-	rm -r $(OBDIR)
+	rm -f $(OBCC)
 
 fclean: clean
 	rm -f $(NAME)
