@@ -48,7 +48,7 @@ int  		Bullet::getDir(void) const
 	return this->_direction;
 }
 
-AEntity&  Bullet::getBullet(void) const
+AEntity&  	Bullet::getBullet(void) const
 {
 	return this->_bullet;
 }
@@ -91,7 +91,7 @@ void 		Bullet::setNext(Bullet* next)
 
 }
 
-bool			Bullet::bulletMove(int sizeX, int sizeY)
+bool		Bullet::bulletMove(int sizeX, int sizeY)
 {
 	if (this->getDir() == 2) {
 		if (this->getBullet().getPosY() + this->getBullet().getSizeY() - 1 < sizeY) {
@@ -121,7 +121,7 @@ bool			Bullet::bulletMove(int sizeX, int sizeY)
 
 }
 
-bool			Bullet::move(void)
+bool		Bullet::move(void)
 {
 	if (this->getBullet().getSpeed() <= 0) {
 		this->getBullet().setSpeed(this->getBullet().getMaxSpeed());

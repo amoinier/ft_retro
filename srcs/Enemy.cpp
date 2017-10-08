@@ -40,14 +40,15 @@ Enemy & Enemy::operator=( Enemy const & rhs )
 /******************************************************************************
 ** 							PUBLIC MEMBER FUNCTION
 ******************************************************************************/
-Bullet	* Enemy::shoot( void )
+Bullet*	Enemy::shoot( void )
 {
 	if (this->_rShoot == 0)
 	{
 		this->_rShoot =  rand() % this->_rShootMax + 100;
 		return this->_weapon->shoot(2, false);
 
-	}else
+	}
+	else
 	{
 		this->_rShoot--;
 	}
@@ -81,12 +82,12 @@ bool 	Enemy::move(void)
 	}
 }
 
-int Enemy::getPoints(void) const
+int 	Enemy::getPoints(void) const
 {
 	return this->_points;
 }
 
-void Enemy::setPoints(int points)
+void 	Enemy::setPoints(int points)
 {
 	this->_points = points;
 }

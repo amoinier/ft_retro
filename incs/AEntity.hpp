@@ -16,17 +16,11 @@ class AEntity {
 	private :
 		void			_initDefinition(int x, int y);
 
-
-
 	public :
-
 		AEntity( void );
-
-		~AEntity( void );
-
 		AEntity( AEntity const & src );
-
 		AEntity( int x, int y, int entityIndex, int maxSpeed);
+		~AEntity( void );
 
 		int**	getDefinition() const;
 		int		getEntityIndex(void) const;
@@ -44,7 +38,6 @@ class AEntity {
 		void 	setSizeY(int y);
 		void 	setMaxSpeed(int maxSpeed);
 		void 	setSpeed(int speed);
-
 
 		AEntity & operator=( AEntity const & rhs);
 };

@@ -30,14 +30,11 @@ Game::Game (int enemyNbr) :  _enemyNbr(0), _enemyNbrMax(enemyNbr), _bulletList(N
 	this->_putEntity(*this->_hero, (this->_map->getSizeX() - this->_hero->getShape().getSizeX()) / 2,
 	this->_map->getSizeY() - this->_hero->getShape().getSizeY());
 
-	std::cout << "Init Game Constructor" << std::endl;
-
 	return ;
 }
 
 Game::Game( Game const & src )
 {
-	std::cout << "Copy Game Constructor" << std::endl;
 	*this = src;
 	return ;
 }

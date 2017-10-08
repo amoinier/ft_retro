@@ -15,7 +15,6 @@ Weapon::~Weapon(void)
 
 }
 
-
 Weapon& Weapon::operator=(Weapon const & rhs)
 {
 	(void)rhs;

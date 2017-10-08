@@ -30,6 +30,8 @@ ASpaceShip & ASpaceShip::operator=( ASpaceShip const & rhs )
 	this->_hp = rhs._hp;
 	this->_weapon = rhs._weapon;
 	this->_hpMax = rhs._hpMax;
+	this->_shape = rhs._shape;
+	
 	return *this;
 }
 

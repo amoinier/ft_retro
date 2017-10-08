@@ -6,19 +6,16 @@
 
 Hero::Hero ( AEntity & shape, Weapon *weapon) : ASpaceShip(100, shape, weapon)
 {
-	std::cout << __func__ << std::endl;
 	return ;
 }
 Hero::Hero ( AEntity & shape) : ASpaceShip(100 ,shape)
 {
-	std::cout << __func__ << std::endl;
 	return ;
 }
 
 Hero::Hero( Hero const & src ) : ASpaceShip( src )
 {
 	*this = src;
-	std::cout << __func__ << std::endl;
 
 	return ;
 }
@@ -27,7 +24,6 @@ Hero::Hero( Hero const & src ) : ASpaceShip( src )
 ******************************************************************************/
 Hero::~Hero( void )
 {
-	std::cout << __func__ << std::endl;
 	return ;
 }
 /******************************************************************************
@@ -36,7 +32,7 @@ Hero::~Hero( void )
 
 Hero & Hero::operator=( Hero const & rhs )
 {
-	(void)rhs;
+	this->_score = rhs->_score;
 
 	return *this;
 }

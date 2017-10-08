@@ -6,7 +6,7 @@
 /*   By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/07 09:15:10 by amoinier          #+#    #+#             */
-/*   Updated: 2017/10/08 17:03:34 by amoinier         ###   ########.fr       */
+/*   Updated: 2017/10/08 20:27:14 by amoinier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 #include <unistd.h>
 #include <ncurses.h>
 #include "Game.hpp"
-
-//0 <= y0 < LINES;
-//0 <= x0 < COLUMNS;
-
-//ESCAPE = 27
-//SPACEBAR = 32
 
 int main(void)
 {
@@ -34,7 +28,7 @@ int main(void)
 
 		usleep(10000);
 	}
-
 	endwin();
+	
 	return (0);
 }

@@ -24,9 +24,9 @@ public:
 
 	void  		setDmg(int dmg);
 	void  		setDir(int direction);
-	void 		 	setBullet(AEntity& bullet);
-	void 			setNext(Bullet* next);
-	void 			setPrev(Bullet* prev);
+	void 		setBullet(AEntity& bullet);
+	void 		setNext(Bullet* next);
+	void 		setPrev(Bullet* prev);
 
 	bool			bulletMove(int sizeX, int sizeY);
 	bool			move(void);

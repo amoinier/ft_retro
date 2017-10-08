@@ -7,19 +7,17 @@
 class ASpaceShip
 {
 	protected :
-			unsigned int _hp;
-			unsigned int _hpMax;
-			AEntity		&_shape;
-			Weapon		*_weapon;
+			unsigned int 	_hp;
+			unsigned int 	_hpMax;
+			AEntity			&_shape;
+			Weapon			*_weapon;
 
 	private :
-
 			ASpaceShip( void );
 
 	public :
 
 		ASpaceShip( ASpaceShip const & src );
-
 		ASpaceShip( unsigned int hp, AEntity & shape);
 		ASpaceShip( unsigned int hp, AEntity & shape, Weapon * weapon);
 		virtual ~ASpaceShip(void) {};

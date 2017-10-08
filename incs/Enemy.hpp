@@ -9,10 +9,10 @@
 class Enemy : public ASpaceShip
 {
 	protected :
-		int 		_points;
-		unsigned int _color;
-		unsigned int _rShoot;
-		unsigned int _rShootMax;
+		int 			_points;
+		unsigned int 	_color;
+		unsigned int 	_rShoot;
+		unsigned int 	_rShootMax;
 
 	private :
 		Enemy( void );
@@ -21,24 +21,15 @@ class Enemy : public ASpaceShip
 		Enemy( AEntity & shape, Weapon *weapon, unsigned int hp, unsigned int color, int points );
 		Enemy( AEntity & shape, unsigned int hp);
 		Enemy( Enemy const & src );
-
 		virtual ~Enemy( void ) {};
-
-
-		/**
-		 * attack
-		 **/
-
-		Bullet *shoot( void ); // shoot a bullet each time rShoot is 0
-
-
 
 		Enemy & operator=( Enemy const & rhs);
 
+		Bullet *shoot( void );
 		bool 	enemyMove(int sizeX, int sizeY);
 		bool 	move(void);
 
-		int getPoints(void) const;
-		void setPoints(int points);
+		int 	getPoints(void) const;
+		void 	setPoints(int points);
 };
 #endif

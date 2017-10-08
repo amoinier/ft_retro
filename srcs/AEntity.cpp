@@ -52,7 +52,7 @@ AEntity & AEntity::operator=( AEntity const & rhs )
 /******************************************************************************
 ** 								GETTEUR
 ******************************************************************************/
-int**		AEntity::getDefinition(void) const
+int**	AEntity::getDefinition(void) const
 {
 	return this->_definition;
 }
