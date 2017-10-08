@@ -232,7 +232,6 @@ void		Game::_pushBullet(Bullet *new_bullet, int x, int y)
 
 	if (!tmp) {
 		this->_bulletList = new_bullet;
-		//this->_putEntity(*this->_bulletList, this->_hero->getShape().getPosX() + 1, this->_hero->getShape().getPosY() - 1);
 		this->_putEntity(*this->_bulletList, x, y);
 		return ;
 	}
@@ -241,9 +240,62 @@ void		Game::_pushBullet(Bullet *new_bullet, int x, int y)
 	}
 	tmp->setNext(new_bullet);
 	tmp->getNext()->setPrev(tmp);
-	//this->_putEntity(*tmp->getNext(), this->_hero->getShape().getPosX() + 1, this->_hero->getShape().getPosY() - 1);
 	this->_putEntity(*tmp->getNext(), x, y);
 	return ;
+}
+
+int Game::_checkBullet(int index)
+{
+
+	int i = 0;
+	int j = 0;
+
+
+	for (i = 0; i < this->_enemies[index]->getShape().getSizeX(); i++) {
+		for (j = 0; j < this->_enemies[index]->getShape().getSizeY(); j++) {
+
+			if (this->_map->getDefinition()[i + this->_enemies[index]->getShape().getPosX()][j + this->_enemies[index]->getShape().getPosY()] == 3) {
+				return this->_deleteBullet(i + this->_enemies[index]->getShape().getPosX(), j + this->_enemies[index]->getShape().getPosY());
+			}
+
+		}
+	}
+
+	return 0;
+}
+
+int Game::_deleteBullet(int posX, int posY)
+{
+	Bullet *tmp = this->_bulletList;
+	int dmg = 0;
+
+	if (!tmp) {
+		return dmg;
+	}
+	else {
+		while (tmp) {
+			if (tmp->getBullet().getPosX() == posX && tmp->getBullet().getPosY() == posY) {
+				dmg = tmp->getDmg();
+				this->_deleteEntity(tmp->getBullet());
+				if (tmp->getNext()) {
+					tmp->getNext()->setPrev(tmp->getPrev());
+				}
+				if (tmp->getPrev()) {
+					tmp->getPrev()->setNext(tmp->getNext());
+				}
+
+				if (tmp == this->_bulletList) {
+					this->_bulletList = tmp->getNext();
+				}
+				delete tmp;
+				tmp = NULL;
+				return dmg;
+			}
+
+			tmp = tmp->getNext();
+		}
+		return dmg;
+	}
 }
 
 /******************************************************************************
@@ -413,60 +465,6 @@ void 		Game::moveEntity(Hero &hero, int vecteur)
 
 }
 
-int Game::_checkBullet(int index)
-{
-
-	int i = 0;
-	int j = 0;
-
-
-	for (i = 0; i < this->_enemies[index]->getShape().getSizeX(); i++) {
-		for (j = 0; j < this->_enemies[index]->getShape().getSizeY(); j++) {
-
-			if (this->_map->getDefinition()[i + this->_enemies[index]->getShape().getPosX()][j + this->_enemies[index]->getShape().getPosY()] == 3) {
-				return this->_deleteBullet(i + this->_enemies[index]->getShape().getPosX(), j + this->_enemies[index]->getShape().getPosY());
-			}
-
-		}
-	}
-
-	return 0;
-}
-
-int Game::_deleteBullet(int posX, int posY)
-{
-	Bullet *tmp = this->_bulletList;
-	int dmg = 0;
-
-	if (!tmp) {
-		return dmg;
-	}
-	else {
-		while (tmp) {
-			if (tmp->getBullet().getPosX() == posX && tmp->getBullet().getPosY() == posY) {
-				dmg = tmp->getDmg();
-				this->_deleteEntity(tmp->getBullet());
-				if (tmp->getNext()) {
-					tmp->getNext()->setPrev(tmp->getPrev());
-				}
-				if (tmp->getPrev()) {
-					tmp->getPrev()->setNext(tmp->getNext());
-				}
-
-				if (tmp == this->_bulletList) {
-					this->_bulletList = tmp->getNext();
-				}
-				delete tmp;
-				tmp = NULL;
-				return dmg;
-			}
-
-			tmp = tmp->getNext();
-		}
-		return dmg;
-	}
-}
-
 void 		Game::moveEnemies(void)
 {
 	int i = 0;
@@ -515,47 +513,12 @@ void		Game::shootEnemies(void)
 			{
 				this->_pushBullet(new_bullet, this->_enemies[i]->getShape().getPosX() + 1 ,this->_enemies[i]->getShape().getPosY() +this->_enemies[i]->getShape().getSizeY() + 1);
 			}
-			//this->_pushBullet(new_bullet, this->_hero->getShape().getPosX() + 1, this->_hero->getShape().getPosY() - 1);
 		}
 	}
-	/*
-	Bullet *tmp = this->_bulletList;
-	Bullet *new_bullet;
 
-	for (int i = 0; i < this->_enemyNbrMax; i++) {
-
-		if (this->_enemies[i])
-		{
-			new_bullet = this->_enemies[i]->shoot();
-			if (!tmp)
-			{
-				this->_bulletList = this->_enemies[i]->shoot();
-				if (this->_bulletList)
-				{
-					this->_putEntity(*this->_bulletList, this->_enemies[i]->getShape().getPosX() + 1,
-					this->_enemies[i]->getShape().getPosY() + 1);
-
-				}
-
-			}
-			else
-			{
-
-				while (tmp->getNext()) {
-					tmp = tmp->getNext();
-				}
-
-				tmp->setNext(this->_enemies[i]->getWeapon()->shoot(1));
-				tmp->getNext()->setPrev(tmp);
-				this->_putEntity(*tmp->getNext(), this->_enemies[i]->getShape().getPosX() + 1,
-					this->_enemies[i]->getShape().getPosY() + 1);
-			}
-		}
-
-	}
-*/
 	return ;
 }
+
 void 		Game::moveBullet(void)
 {
 	Bullet *tmp = this->_bulletList;
@@ -629,6 +592,9 @@ void Game::play(int ch)
 	else if (ch == 32) {
 		this->useWeapon();
 	}
+
+	this->_putEntity(*this->_hero, this->_hero->getShape().getPosX(), this->_hero->getShape().getPosY());
+
 	if (this->_enemyNbr == 0) {
 		this->_newWave();
 	}

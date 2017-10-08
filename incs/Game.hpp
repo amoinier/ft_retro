@@ -31,7 +31,7 @@ class Game
 		bool		_moveEntityDown(AEntity &entity);
 		bool		_moveEntityLeft(AEntity &entity);
 		bool		_moveEntityRight(AEntity &entity);
-		void 		_deleteBullet(int posX, int posY);
+		int 		_deleteBullet(int posX, int posY);
 		void		_pushBullet(Bullet *bullet, int x, int y);
 
 

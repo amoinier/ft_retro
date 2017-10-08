@@ -1,11 +1,11 @@
 #include "Bullet.hpp"
 
-Bullet::Bullet(void) :  _direction(1), _damage(35), _bullet(*new AEntity(1, 1, 3, 100)), _next(NULL), _prev(NULL)
+Bullet::Bullet(void) :  _direction(1), _damage(35), _bullet(*new AEntity(1, 1, 3, 1)), _next(NULL), _prev(NULL)
 {
 
 }
 
-Bullet::Bullet(int direction) : _direction(direction),  _damage(35), _bullet(*new AEntity(1, 1, 3, 100)), _next(NULL), _prev(NULL)
+Bullet::Bullet(int direction) : _direction(direction),  _damage(35), _bullet(*new AEntity(1, 1, 3, 1)), _next(NULL), _prev(NULL)
 {
 
 }
