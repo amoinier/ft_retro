@@ -66,7 +66,7 @@ void 		Game::_initEnemy(void)
 
 void 		Game::_newWave(void)
 {
-	this->_enemyNbr = rand() % this->_enemyNbrMax;
+	this->_enemyNbr = rand() % (this->_map->getSizeX() / 6); // 6 == LARGEST SPACESHIP X
 	Enemy* (Game::*Func[])(void) const = {&Game::_callD7, &Game::_callVor_cha};
 
 	for (int i = 0; i < this->_enemyNbr; i++) {
@@ -242,6 +242,80 @@ void 		Game::setBox(WINDOW* box)
 	this->_box = box;
 
 	return ;
+}
+
+void 		Game::setSizeMap(int x, int y)
+{
+	int tmpX = ((this->_map->getSizeX() < x - 1) ? this->_map->getSizeX() : x - 1);
+	int tmpY = ((this->_map->getSizeY() < y - 1) ? this->_map->getSizeY() : y - 1);
+
+	for (int i = 0; i < this->_enemyNbrMax; i++) {
+		if (this->_enemies[i] != NULL) {
+			if (this->_enemies[i]->getShape().getPosX() + this->_enemies[i]->getShape().getSizeX() > x - 1 ||
+			this->_enemies[i]->getShape().getPosY() + this->_enemies[i]->getShape().getSizeY() > y - 1) {
+				this->_deleteEntity(this->_enemies[i]->getShape());
+				this->_enemyNbr--;
+				delete this->_enemies[i];
+				this->_enemies[i] = NULL;
+			}
+		}
+	}
+
+
+
+	if (this->_hero->getShape().getPosX() + this->_hero->getShape().getSizeX() > x - 1 ||
+	this->_hero->getShape().getPosY() + this->_hero->getShape().getSizeY() > y - 1) {
+		endwin();
+		return exit(0);
+	}
+
+
+
+	Bullet *tmpBullet = this->_bulletList;
+	Bullet *tmp2;
+
+	if (tmpBullet) {
+		while (tmpBullet) {
+			if (tmpBullet->getBullet().getPosX() + tmpBullet->getBullet().getSizeX() > x - 1 ||
+			tmpBullet->getBullet().getPosY() + tmpBullet->getBullet().getSizeY() > y - 1) {
+				this->_deleteEntity(tmpBullet->getBullet());
+				if (tmpBullet->getNext()) {
+					tmpBullet->getNext()->setPrev(tmpBullet->getPrev());
+				}
+				if (tmpBullet->getPrev()) {
+					tmpBullet->getPrev()->setNext(tmpBullet->getNext());
+				}
+
+				if (tmpBullet == this->_bulletList) {
+					this->_bulletList = tmpBullet->getNext();
+				}
+				tmp2 = tmpBullet->getNext();
+
+				delete tmpBullet;
+				tmpBullet = NULL;
+				tmpBullet = tmp2;
+				continue;
+			}
+
+			tmpBullet = tmpBullet->getNext();
+		}
+	}
+
+
+	int** tmp = this->_map->getDefinition();
+	delete this->_map;
+	this->_map = NULL;
+	this->_map = new AEntity(x - 1, y - 1, 0, 1);
+
+	for (int i = 0; i < tmpX; i++) {
+		for (int j = 0; j < tmpY; j++) {
+			if (tmp[i][j] != 0) {
+				this->_map->setDefinition(i, j, tmp[i][j]);
+			}
+		}
+	}
+
+
 }
 
 /******************************************************************************
@@ -469,9 +543,12 @@ void Game::useWeapon(void)
 
 void Game::play(int ch)
 {
+	if (ch == 410) {
+		this->setSizeMap(getmaxx(this->getBox()), getmaxy(this->getBox()));
+		clear();
+	}
 	if (ch == 27) {
 		endwin();
-		while(1);
 		return exit(0);
 	}
 	else if (ch == 259) {

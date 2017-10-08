@@ -111,6 +111,21 @@ void 	AEntity::setPosY(int y)
 	return ;
 }
 
+void 	AEntity::setSizeX(int x)
+{
+	this->_sizeX = x;
+
+	return ;
+}
+
+void 	AEntity::setSizeY(int y)
+{
+	this->_sizeY = y;
+
+	return ;
+}
+
+
 void 	AEntity::setSpeed(int speed)
 {
 	this->_speed = speed;

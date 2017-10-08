@@ -40,6 +40,8 @@ class AEntity {
 		void 	setDefinition(int x, int y, int value);
 		void 	setPosX(int x);
 		void 	setPosY(int y);
+		void 	setSizeX(int x);
+		void 	setSizeY(int y);
 		void 	setMaxSpeed(int maxSpeed);
 		void 	setSpeed(int speed);
 

@@ -59,6 +59,7 @@ class Game
 		WINDOW* getBox();
 
 		void 		setBox(WINDOW* box);
+		void 		setSizeMap(int x, int y);
 
 };
 #endif
