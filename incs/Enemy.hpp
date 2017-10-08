@@ -14,7 +14,7 @@ class Enemy : public ASpaceShip
 		unsigned int _rShootMax;
 
 	private :
-		Enemy(void );
+		Enemy( void );
 
 	public :
 		Enemy( AEntity & shape, Weapon *weapon, unsigned int hp, unsigned int color );

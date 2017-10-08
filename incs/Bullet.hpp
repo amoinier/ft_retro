@@ -13,7 +13,7 @@ public:
 	Bullet(Bullet const & src);
 	~Bullet(void);
 
-	Bullet& operator=(Bullet const & rhs);
+	
 
 	int  		getDmg(void) const;
 	int  		getDir(void) const;
@@ -29,6 +29,8 @@ public:
 
 	bool			bulletMove(int sizeX, int sizeY);
 	bool			move(void);
+
+	Bullet& operator=(Bullet const & rhs);
 
 private:
 	int			_direction;

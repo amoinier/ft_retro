@@ -46,15 +46,6 @@ class AEntity {
 		void 	setSpeed(int speed);
 
 
-
-		/**
-		 * Ascessor
-		 * */
-		///////////////////////////////////////////////////
-
-		/**
-		 * Operator overload
-		 * */
 		AEntity & operator=( AEntity const & rhs);
 };
 #endif

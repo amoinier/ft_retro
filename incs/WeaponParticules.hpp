@@ -36,6 +36,6 @@ class WeaponParticules
 		*/
 		unsigned int getDamage( void ) const;
 		unsigned int getType( void ) const;
-//		AEntity *getEntity( void ) const;
+
 };
 #endif

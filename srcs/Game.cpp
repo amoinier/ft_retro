@@ -47,7 +47,6 @@ Game & Game::operator=( Game const & rhs )
 	this->_enemies = rhs._enemies;
 	this->_enemyNbr = rhs._enemyNbr;
 	this->_enemyNbrMax = rhs._enemyNbrMax;
-
 	return *this;
 }
 

@@ -7,7 +7,8 @@
 class Vor_cha : public Enemy
 {
 	private :
-
+		Vor_cha( void );
+		
 	public :
 		Vor_cha( Weapon *Weapon, unsigned int color);
 		Vor_cha( Vor_cha const & src );
