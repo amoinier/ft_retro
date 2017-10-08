@@ -32,7 +32,7 @@ Hero::~Hero( void )
 
 Hero & Hero::operator=( Hero const & rhs )
 {
-	this->_score = rhs->_score;
+	this->_score = rhs._score;
 
 	return *this;
 }

@@ -5,7 +5,7 @@
 ******************************************************************************/
 
 ASpaceShip::ASpaceShip( unsigned int hp, AEntity & shape, Weapon * weapon):
-	_hp(hp), _hpMax(10) ,_shape(shape), _weapon(weapon)
+	_hp(hp), _hpMax(hp) ,_shape(shape), _weapon(weapon)
 {
 }
 
@@ -31,7 +31,7 @@ ASpaceShip & ASpaceShip::operator=( ASpaceShip const & rhs )
 	this->_weapon = rhs._weapon;
 	this->_hpMax = rhs._hpMax;
 	this->_shape = rhs._shape;
-	
+
 	return *this;
 }
 

@@ -536,11 +536,14 @@ void 		Game::moveEnemies(void)
 				}
 			}
 			else {
-				this->_enemies[i]->setHp(this->_enemies[i]->getHp() - ret->getDmg());
+				int hp = this->_enemies[i]->getHp() - ret->getDmg();
+				bool herosBullet = ret->isHeroBullet();
+				this->_deleteBullet(ret);
+
+				this->_enemies[i]->setHp(hp);
 				if (this->_enemies[i]->getHp() <= 0) {
-					if (ret->isHeroBullet()) {
+					if (herosBullet) {
 						this->_hero->setScore(this->_hero->getScore() + this->_enemies[i]->getPoints());
-						this->_deleteBullet(ret);
 					}
 					this->_deleteEntity(this->_enemies[i]->getShape());
 					this->_enemyNbr--;
