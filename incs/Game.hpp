@@ -10,6 +10,7 @@
 #include "D7.hpp"
 #include "Vor_cha.hpp"
 #include "Bullet.hpp"
+#include "Carrier.hpp"
 
 class Game
 {
@@ -42,6 +43,7 @@ class Game
 
 		Enemy*			_callD7(void) const;
 		Enemy*			_callVor_cha(void) const;
+		Enemy*			_callCarrier(void) const;
 
 		Game( void );
 

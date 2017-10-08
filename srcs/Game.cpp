@@ -82,11 +82,11 @@ void 		Game::_newWave(void)
 
 	if (this->_enemyNbr + randValue < this->_enemyNbrMax) {
 		this->_enemyNbr += randValue;
-		Enemy* (Game::*Func[])(void) const = {&Game::_callD7, &Game::_callVor_cha};
+		Enemy* (Game::*Func[])(void) const = {&Game::_callD7, &Game::_callVor_cha, &Game::_callCarrier};
 
 		for (int i = 0; i < this->_enemyNbr; i++) {
 			if (!this->_enemies[i]) {
-				this->_enemies[i] = (this->*Func[rand() % 2])();
+				this->_enemies[i] = (this->*Func[rand() % 3])();
 				this->_putEntity(*this->_enemies[i], ((this->_map->getSizeX() / (this->_enemyNbr)) * (i)) + 1, 0);
 				createdEnemies++;
 			}
@@ -243,6 +243,11 @@ Enemy*			Game::_callD7(void) const
 Enemy*	Game::_callVor_cha(void) const
 {
 	return new Vor_cha(new Weapon(), 0x0);
+}
+
+Enemy*	Game::_callCarrier(void) const
+{
+	return new Carrier(new Weapon(), 0x0);
 }
 
 
