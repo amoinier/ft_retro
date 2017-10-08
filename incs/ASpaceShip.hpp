@@ -9,8 +9,8 @@ class ASpaceShip
 	protected :
 			unsigned int _hp;
 			unsigned int _hpMax;
-			AEntity		&_shape; // XXX
-			Weapon		*_weapon; //XXX interface ???
+			AEntity		&_shape;
+			Weapon		*_weapon;
 
 	private :
 
@@ -24,26 +24,15 @@ class ASpaceShip
 		ASpaceShip( unsigned int hp, AEntity & shape, Weapon * weapon);
 		virtual ~ASpaceShip(void) {};
 
-
-
-
-		void		attack ( void ) const ; // use is weapon
-
-
-
-		/**
-		 * Ascessor
-		 * */
-		AEntity & getShape( void ) const; // \XXX get the shape of the Spaceship
+		AEntity & 	getShape( void ) const;
 		Weapon*		getWeapon(void) const;
-		bool	isAlive ( void ) const   ; // still Allive	 ?
-		///////////////////////////////////////////////////
+		int 		getHp(void) const;
+		bool		isAlive ( void ) const;
+		void 		setHp(int hp);
 
 		void		setWeapon(Weapon* weapon);
-		void	repaired ( unsigned int )  ; // repaired the Spaceship
-		/**
-		 * Operator overload
-		 * */
+		void		repaired ( unsigned int );
+
 		ASpaceShip & operator=( ASpaceShip const & rhs);
 };
 #endif

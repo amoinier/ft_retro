@@ -13,6 +13,6 @@ class Vor_cha : public Enemy
 		Vor_cha( Vor_cha const & src );
 		~Vor_cha( void );
 
-//		Vor_cha & operator=( Vor_cha const & rhs);
+		Vor_cha & operator=( Vor_cha const & rhs);
 };
 #endif

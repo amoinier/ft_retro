@@ -17,7 +17,9 @@ Hero::Hero ( AEntity & shape) : ASpaceShip(100 ,shape)
 
 Hero::Hero( Hero const & src ) : ASpaceShip( src )
 {
+	*this = src;
 	std::cout << __func__ << std::endl;
+
 	return ;
 }
 /******************************************************************************
@@ -31,9 +33,13 @@ Hero::~Hero( void )
 /******************************************************************************
 ** 							OPERATOR OVERLOAD
 ******************************************************************************/
-/*
+
 Hero & Hero::operator=( Hero const & rhs )
 {
-	return ;
+	(void)rhs;
+
+	return *this;
 }
-*/
+
+
+int Hero::defaultDefinition[3][3] = {{0,1,1},{1, 1, 1}, {0, 1, 1}};

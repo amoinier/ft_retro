@@ -40,6 +40,10 @@ AEntity & AEntity::operator=( AEntity const & rhs )
 	this->_entityIndex = rhs.getEntityIndex();
 	this->_sizeX = rhs.getSizeX();
 	this->_sizeY = rhs.getSizeY();
+	this->_posX = rhs.getPosX();
+	this->_posY = rhs.getPosY();
+	this->_maxSpeed = rhs.getMaxSpeed();
+	this->_speed = rhs.getSpeed();
 
 	return *this;
 }

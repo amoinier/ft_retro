@@ -96,7 +96,8 @@ void 		Game::_putEntity(Hero &hero, int x, int y)
 				return exit(0);
 			}
 
-			if (hero.getShape().getDefinition()[i][j] != 0) {
+			if (hero.defaultDefinition[i][j] != 0) {
+
 				this->_map->setDefinition(i + x, j + y, hero.getShape().getDefinition()[i][j]);
 			}
 
@@ -314,7 +315,7 @@ void 		Game::moveEntity(Hero &hero, int vecteur)
 
 }
 
-bool Game::_checkBullet(int index)
+int Game::_checkBullet(int index)
 {
 	int i = 0;
 	int j = 0;
@@ -324,26 +325,27 @@ bool Game::_checkBullet(int index)
 		for (j = 0; j < this->_enemies[index]->getShape().getSizeY(); j++) {
 
 			if (this->_map->getDefinition()[i + this->_enemies[index]->getShape().getPosX()][j + this->_enemies[index]->getShape().getPosY()] == 3) {
-				this->_deleteBullet(i + this->_enemies[index]->getShape().getPosX(), j + this->_enemies[index]->getShape().getPosY());
-				return true;
+				return this->_deleteBullet(i + this->_enemies[index]->getShape().getPosX(), j + this->_enemies[index]->getShape().getPosY());
 			}
 
 		}
 	}
 
-	return false;
+	return 0;
 }
 
-void Game::_deleteBullet(int posX, int posY)
+int Game::_deleteBullet(int posX, int posY)
 {
 	Bullet *tmp = this->_bulletList;
+	int dmg = 0;
 
 	if (!tmp) {
-		return ;
+		return dmg;
 	}
 	else {
 		while (tmp) {
 			if (tmp->getBullet().getPosX() == posX && tmp->getBullet().getPosY() == posY) {
+				dmg = tmp->getDmg();
 				this->_deleteEntity(tmp->getBullet());
 				if (tmp->getNext()) {
 					tmp->getNext()->setPrev(tmp->getPrev());
@@ -357,21 +359,23 @@ void Game::_deleteBullet(int posX, int posY)
 				}
 				delete tmp;
 				tmp = NULL;
-				return ;
+				return dmg;
 			}
 
 			tmp = tmp->getNext();
 		}
+		return dmg;
 	}
 }
 
 void 		Game::moveEnemies(void)
 {
 	int i = 0;
+	int dmg = 0;
 
 	for (i = 0; i < this->_enemyNbrMax; i++) {
 		if (this->_enemies[i] != NULL) {
-			if (!this->_checkBullet(i)) {
+			if (!(dmg = this->_checkBullet(i))) {
 				if (this->_enemies[i]->move())
 				{
 					this->_deleteEntity(this->_enemies[i]->getShape());
@@ -386,10 +390,13 @@ void 		Game::moveEnemies(void)
 				}
 			}
 			else {
-				this->_deleteEntity(this->_enemies[i]->getShape());
-				this->_enemyNbr--;
-				delete this->_enemies[i];
-				this->_enemies[i] = NULL;
+				this->_enemies[i]->setHp(this->_enemies[i]->getHp() - dmg);
+				if (this->_enemies[i]->getHp() <= 0) {
+					this->_deleteEntity(this->_enemies[i]->getShape());
+					this->_enemyNbr--;
+					delete this->_enemies[i];
+					this->_enemies[i] = NULL;
+				}
 			}
 		}
 	}

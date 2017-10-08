@@ -13,14 +13,8 @@ Enemy::Enemy(AEntity & shape, unsigned int hp ): ASpaceShip (hp, shape), _color(
 {
 
 }
-/*
-Enemy::Enemy ( void )
-{
-	return ;
-}
-*/
 
-Enemy::Enemy( Enemy const & src ) :ASpaceShip (src)
+Enemy::Enemy( Enemy const & src ) : ASpaceShip (src)
 {
 	return ;
 }
@@ -30,12 +24,14 @@ Enemy::Enemy( Enemy const & src ) :ASpaceShip (src)
 /******************************************************************************
 ** 							OPERATOR OVERLOAD
 ******************************************************************************/
-/*
+
 Enemy & Enemy::operator=( Enemy const & rhs )
 {
-	return ;
+	this->_color = rhs._color;
+
+	return *this;
 }
-*/
+
 
 /******************************************************************************
 ** 							PUBLIC MEMBER FUNCTION

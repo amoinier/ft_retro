@@ -24,8 +24,10 @@ Bullet::~Bullet(void)
 Bullet& Bullet::operator=(Bullet const & rhs)
 {
 	this->_damage = rhs.getDmg();
+	this->_direction = rhs.getDir();
 	this->_bullet = rhs.getBullet();
 	this->_next = rhs.getNext();
+	this->_prev = rhs.getPrev();
 
 	return *this;
 }

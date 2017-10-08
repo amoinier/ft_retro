@@ -7,6 +7,7 @@
 class Hero : public ASpaceShip
 {
 	private :
+
 		Hero( void );
 
 	public :
@@ -15,6 +16,8 @@ class Hero : public ASpaceShip
 		Hero( Hero const & src );
 		~Hero( void );
 
-		//Hero & operator=( Hero const & rhs);
+		Hero & operator=( Hero const & rhs);
+		
+		static int defaultDefinition[3][3];
 };
 #endif

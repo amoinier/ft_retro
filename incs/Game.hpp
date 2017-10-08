@@ -31,9 +31,9 @@ class Game
 		bool		_moveEntityDown(AEntity &entity);
 		bool		_moveEntityLeft(AEntity &entity);
 		bool		_moveEntityRight(AEntity &entity);
-		void 		_deleteBullet(int posX, int posY);
+		int 		_deleteBullet(int posX, int posY);
 
-		bool 		_checkBullet(int index);
+		int 		_checkBullet(int index);
 
 		Enemy*			_callD7(void) const;
 		Enemy*			_callVor_cha(void) const;

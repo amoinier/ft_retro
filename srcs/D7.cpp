@@ -10,6 +10,8 @@ D7::D7( Weapon *Weapon, unsigned int color) : Enemy(*new AEntity(2, 2, 2, 7), We
 
 D7::D7( D7 const & src ) : Enemy(src)
 {
+	*this = src;
+
 	return ;
 }
 /******************************************************************************
@@ -19,15 +21,16 @@ D7::~D7( void )
 {
 	delete &_shape;
 	delete _weapon;
-	
+
 	return ;
 }
 /******************************************************************************
 ** 							OPERATOR OVERLOAD
 ******************************************************************************/
-/*
-D7 & D7::operator=( D7 const & rhs ) Enemy
+
+D7 & D7::operator=( D7 const & rhs )
 {
-	return ;
+	(void)rhs;
+
+	return *this;
 }
-*/

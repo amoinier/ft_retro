@@ -7,12 +7,14 @@ Vor_cha::Vor_cha ( Weapon * Weapon, unsigned int color): Enemy(*new AEntity(5, 5
 	return ;
 }
 
-/*
-Vor_cha::Vor_cha( Vor_cha const & src )
+
+Vor_cha::Vor_cha( Vor_cha const & src ) : Enemy(src)
 {
+	*this = src;
+
 	return ;
 }
-*/
+
 /******************************************************************************
 ** 							DESTRUCTOR
 ******************************************************************************/
@@ -25,9 +27,10 @@ Vor_cha::~Vor_cha( void )
 /******************************************************************************
 ** 							OPERATOR OVERLOAD
 ******************************************************************************/
-/*
+
 Vor_cha & Vor_cha::operator=( Vor_cha const & rhs )
 {
-	return ;
+	(void)rhs;
+
+	return *this;
 }
-*/

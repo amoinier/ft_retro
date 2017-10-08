@@ -51,6 +51,11 @@ bool		ASpaceShip::isAlive( void ) const
 		return (false);
 }
 
+int 		ASpaceShip::getHp(void) const
+{
+	return this->_hp;
+}
+
 Weapon*		ASpaceShip::getWeapon(void) const
 {
 	return this->_weapon;
@@ -70,6 +75,13 @@ void		ASpaceShip::repaired ( unsigned int  hp)
 void		ASpaceShip::setWeapon(Weapon* weapon)
 {
 	this->_weapon = weapon;
+
+	return ;
+}
+
+void 		ASpaceShip::setHp(int hp)
+{
+	this->_hp = hp;
 
 	return ;
 }

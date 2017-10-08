@@ -9,26 +9,26 @@ class Bullet {
 public:
 
 	Bullet(void);
-  Bullet(int direction);
-  Bullet(Bullet const & src);
-  ~Bullet(void);
+	Bullet(int direction);
+	Bullet(Bullet const & src);
+	~Bullet(void);
 
-  Bullet& operator=(Bullet const & rhs);
+	Bullet& operator=(Bullet const & rhs);
 
-  int  		getDmg(void) const;
-  int  		getDir(void) const;
-  AEntity&  getBullet(void) const;
-  Bullet*  	getNext(void) const;
-  Bullet*  	getPrev(void) const;
+	int  		getDmg(void) const;
+	int  		getDir(void) const;
+	AEntity&  	getBullet(void) const;
+	Bullet*  	getNext(void) const;
+	Bullet*  	getPrev(void) const;
 
-  void  		setDmg(int dmg);
-  void  		setDir(int direction);
-  void 		 	setBullet(AEntity& bullet);
-  void 			setNext(Bullet* next);
-  void 			setPrev(Bullet* prev);
+	void  		setDmg(int dmg);
+	void  		setDir(int direction);
+	void 		 	setBullet(AEntity& bullet);
+	void 			setNext(Bullet* next);
+	void 			setPrev(Bullet* prev);
 
-  bool			bulletMove(int sizeX, int sizeY);
-  bool			move(void);
+	bool			bulletMove(int sizeX, int sizeY);
+	bool			move(void);
 
 private:
 	int			_direction;
