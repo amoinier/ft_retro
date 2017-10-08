@@ -4,9 +4,10 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-Enemy::Enemy( AEntity & shape, Weapon *weapon, unsigned int hp, unsigned int color ): ASpaceShip(hp, shape, weapon), _color(color), _rShoot(10)
+Enemy::Enemy( AEntity & shape, Weapon *weapon, unsigned int hp, unsigned int color ): ASpaceShip(hp, shape, weapon),
+ _color(color), _rShoot(0), _rShootMax(30)
 {
-
+	this->_rShoot =  rand() % this->_rShootMax + 100;
 }
 
 Enemy::Enemy(AEntity & shape, unsigned int hp ): ASpaceShip (hp, shape, 0), _color(0x0) //blank by default
@@ -42,10 +43,9 @@ Enemy & Enemy::operator=( Enemy const & rhs )
 ******************************************************************************/
 Bullet	* Enemy::shoot( void )
 {
-	if (!this->_weapon)
-		exit(1);
 	if (this->_rShoot == 0)
 	{
+		this->_rShoot =  rand() % this->_rShootMax + 100;
 		return this->_weapon->shoot(2);
 
 	}else

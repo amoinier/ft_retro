@@ -11,6 +11,7 @@ class Enemy : public ASpaceShip
 	protected :
 		unsigned int _color;
 		unsigned int _rShoot;
+		unsigned int _rShootMax;
 
 	private :
 		Enemy(void );
