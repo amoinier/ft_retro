@@ -277,7 +277,7 @@ Bullet* Game::_checkBullet(int index)
 		for (j = 0; j < this->_enemies[index]->getShape().getSizeY(); j++) {
 
 			if (this->_map->getDefinition()[i + this->_enemies[index]->getShape().getPosX()][j + this->_enemies[index]->getShape().getPosY()] == 3) {
-				return this->_deleteBullet(i + this->_enemies[index]->getShape().getPosX(), j + this->_enemies[index]->getShape().getPosY());
+				return this->_findBullet(i + this->_enemies[index]->getShape().getPosX(), j + this->_enemies[index]->getShape().getPosY());
 			}
 
 		}
@@ -296,7 +296,7 @@ Bullet* Game::_checkBullet(void)
 		for (j = 0; j < this->_hero->getShape().getSizeY(); j++) {
 
 			if (this->_map->getDefinition()[i + this->_hero->getShape().getPosX()][j + this->_hero->getShape().getPosY()] == 3) {
-				return this->_deleteBullet(i + this->_hero->getShape().getPosX(), j + this->_hero->getShape().getPosY());
+				return this->_findBullet(i + this->_hero->getShape().getPosX(), j + this->_hero->getShape().getPosY());
 			}
 
 		}
@@ -305,37 +305,40 @@ Bullet* Game::_checkBullet(void)
 	return NULL;
 }
 
-Bullet* Game::_deleteBullet(int posX, int posY)
+void Game::_deleteBullet(Bullet *bullet)
+{
+	this->_deleteEntity(bullet->getBullet());
+	if (bullet->getNext()) {
+		bullet->getNext()->setPrev(bullet->getPrev());
+	}
+	if (bullet->getPrev()) {
+		bullet->getPrev()->setNext(bullet->getNext());
+	}
+
+	if (bullet == this->_bulletList) {
+		this->_bulletList = bullet->getNext();
+	}
+	delete bullet;
+	bullet = NULL;
+	return ;
+}
+
+Bullet* Game::_findBullet(int posX, int posY)
 {
 	Bullet *tmp = this->_bulletList;
-	Bullet* ret = NULL;
 
 	if (!tmp) {
-		return ret;
+		return NULL;
 	}
 	else {
 		while (tmp) {
 			if (tmp->getBullet().getPosX() == posX && tmp->getBullet().getPosY() == posY) {
-				ret = new Bullet(*tmp);
-				this->_deleteEntity(tmp->getBullet());
-				if (tmp->getNext()) {
-					tmp->getNext()->setPrev(tmp->getPrev());
-				}
-				if (tmp->getPrev()) {
-					tmp->getPrev()->setNext(tmp->getNext());
-				}
-
-				if (tmp == this->_bulletList) {
-					this->_bulletList = tmp->getNext();
-				}
-				delete tmp;
-				tmp = NULL;
-				return ret;
+				return tmp;
 			}
 
 			tmp = tmp->getNext();
 		}
-		return ret;
+		return NULL;
 	}
 }
 
@@ -540,6 +543,7 @@ void 		Game::moveEnemies(void)
 				if (this->_enemies[i]->getHp() <= 0) {
 					if (ret->isHeroBullet()) {
 						this->_hero->setScore(this->_hero->getScore() + this->_enemies[i]->getPoints());
+						this->_deleteBullet(ret);
 					}
 					this->_deleteEntity(this->_enemies[i]->getShape());
 					this->_enemyNbr--;
@@ -652,6 +656,7 @@ void Game::play(int ch)
 	}
 	else {
 		this->_hero->setHp(this->_hero->getHp() - ret->getDmg());
+		this->_deleteBullet(ret);
 		if (this->_hero->getHp() <= 0) {
 			return gameOver();
 		}
@@ -663,7 +668,7 @@ void Game::play(int ch)
 	}
 	else {
 		this->moveEnemies();
-		gthis->shootEnemies();
+		this->shootEnemies();
 	}
 	this->moveBullet();
 

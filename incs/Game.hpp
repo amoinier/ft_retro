@@ -33,7 +33,9 @@ class Game
 		bool		_moveEntityDown(AEntity &entity);
 		bool		_moveEntityLeft(AEntity &entity);
 		bool		_moveEntityRight(AEntity &entity);
-		Bullet*		_deleteBullet(int posX, int posY);
+		void		_deleteBullet(Bullet* bullet);
+		Bullet*		_findBullet(int posX, int posY);
+
 		void		_pushBullet(Bullet *bullet, int x, int y);
 
 
@@ -62,6 +64,7 @@ class Game
 		void shootEnemies(void);
 		void moveBullet(void);
 		void useWeapon(void);
+
 		void gameOver(void);
 
 
