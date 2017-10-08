@@ -111,9 +111,7 @@ void 		Game::_putEntity(Hero &hero, int x, int y)
 		for (j = 0; j < hero.getShape().getSizeY(); j++) {
 
 			if (hero.getShape().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] == 2) { //TOCHANGE
-
-				endwin();
-				return exit(0);
+				return gameOver();
 			}
 
 			if (hero.defaultDefinition[i][j] != 0) {
@@ -137,8 +135,7 @@ void 		Game::_putEntity(Enemy &enemy, int x, int y)
 		for (j = 0; j < enemy.getShape().getSizeY(); j++) {
 
 			if (enemy.getShape().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] == 1) {
-				endwin();
-				return exit(0);
+				return gameOver();
 			}
 
 			if (enemy.getShape().getDefinition()[i][j] != 0) {
@@ -381,8 +378,7 @@ void 		Game::setSizeMap(int x, int y)
 
 	if (this->_hero->getShape().getPosX() + this->_hero->getShape().getSizeX() > x - 1 ||
 	this->_hero->getShape().getPosY() + this->_hero->getShape().getSizeY() > y - 1) {
-		endwin();
-		return exit(0);
+		return gameOver();
 	}
 	else {
 		this->_putEntity(*this->_hero, this->_hero->getShape().getPosX(), this->_hero->getShape().getPosY());
@@ -633,8 +629,7 @@ void Game::play(int ch)
 		clear();
 	}
 	if (ch == 27) {
-		endwin();
-		return exit(0);
+		return gameOver();
 	}
 	else if (ch == 259) {
 		this->moveEntity(*this->_hero, 1);
@@ -658,8 +653,7 @@ void Game::play(int ch)
 	else {
 		this->_hero->setHp(this->_hero->getHp() - ret->getDmg());
 		if (this->_hero->getHp() <= 0) {
-			endwin();
-			return exit(0);
+			return gameOver();
 		}
 	}
 
@@ -669,7 +663,7 @@ void Game::play(int ch)
 	}
 	else {
 		this->moveEnemies();
-		this->shootEnemies();
+		gthis->shootEnemies();
 	}
 	this->moveBullet();
 
@@ -678,6 +672,16 @@ void Game::play(int ch)
 	mvprintw(0, 14, "TIME: %d", (std::time(0) - Game::timeGame));
 	mvprintw(0, 25, "LIFE: %d", this->_hero->getHp());
 	wrefresh(this->getBox());
+}
+
+void Game::gameOver(void)
+{
+	endwin();
+	std::cout << "- Game over -" << std::endl;
+	std::cout << "TIME: " << (std::time(0) - Game::timeGame) << std::endl;
+	std::cout << "SCORE: " << this->_hero->getScore() << std::endl;
+
+	return exit(0);
 }
 
 std::time_t Game::countTime = std::time(0);

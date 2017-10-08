@@ -62,6 +62,7 @@ class Game
 		void shootEnemies(void);
 		void moveBullet(void);
 		void useWeapon(void);
+		void gameOver(void);
 
 
 		WINDOW* getBox();
