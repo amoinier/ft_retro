@@ -8,6 +8,7 @@
 #include "Enemy.hpp"
 #include "D7.hpp"
 #include "Vor_cha.hpp"
+#include "Bullet.hpp"
 
 class Game
 {
@@ -24,11 +25,14 @@ class Game
 		void 		_newWave(void);
 		void 		_putEntity(Hero &hero, int x, int y);
 		void 		_putEntity(Enemy &enemy, int x, int y);
+		void 		_putEntity(Bullet &Bullet, int x, int y);
 		void 		_deleteEntity(AEntity &entity);
 		bool		_moveEntityUp(AEntity &entity);
 		bool		_moveEntityDown(AEntity &entity);
 		bool		_moveEntityLeft(AEntity &entity);
 		bool		_moveEntityRight(AEntity &entity);
+
+		bool 		_checkBullet(int index);
 
 		Enemy*			_callD7(void) const;
 		Enemy*			_callVor_cha(void) const;
@@ -47,6 +51,7 @@ class Game
 		void moveEntity(Hero &hero, int vecteur);
 		void play(int ch);
 		void moveEnemies(void);
+		void moveBullet(void);
 		void useWeapon(void);
 
 

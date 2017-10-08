@@ -23,7 +23,7 @@ Weapon& Weapon::operator=(Weapon const & rhs)
 	return *this;
 }
 
-Bullet*	shoot(int direction)
+Bullet*	Weapon::shoot(int direction)
 {
 	Bullet* bullet = new Bullet(direction);
 

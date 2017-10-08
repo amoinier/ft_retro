@@ -1,10 +1,8 @@
 #ifndef AENTITY_HPP
 # define AENTITY_HPP
 
-#include "IEntity.hpp"
+class AEntity {
 
-class AEntity : public IEntity
-{
 	protected :
 		int				_entityIndex;
 		int**			_definition;

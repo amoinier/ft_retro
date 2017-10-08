@@ -115,13 +115,34 @@ void 		Game::_putEntity(Enemy &enemy, int x, int y)
 	for (i = 0; i < enemy.getShape().getSizeX(); i++) {
 		for (j = 0; j < enemy.getShape().getSizeY(); j++) {
 
-			if (enemy.getShape().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] != 0) { //TOCHANGE
-				endwin();
-				return exit(0);
+			if (enemy.getShape().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] == 3) {
+				this->_deleteEntity(enemy.getShape());
 			}
 
 			if (enemy.getShape().getDefinition()[i][j] != 0) {
 				this->_map->setDefinition(i + x, j + y, enemy.getShape().getDefinition()[i][j]);
+			}
+
+		}
+	}
+}
+
+void 		Game::_putEntity(Bullet &bullet, int x, int y)
+{
+	int i = 0;
+	int j = 0;
+
+	bullet.getBullet().setPosX(x);
+	bullet.getBullet().setPosY(y);
+
+	for (i = 0; i < bullet.getBullet().getSizeX(); i++) {
+		for (j = 0; j < bullet.getBullet().getSizeY(); j++) {
+
+			if (bullet.getBullet().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] != 0) {
+			}
+
+			if (bullet.getBullet().getDefinition()[i][j] != 0) {
+				this->_map->setDefinition(i + x, j + y, bullet.getBullet().getDefinition()[i][j]);
 			}
 
 		}
@@ -292,25 +313,97 @@ void 		Game::moveEntity(Hero &hero, int vecteur)
 
 }
 
+bool Game::_checkBullet(int index)
+{
+	int i = 0;
+	int j = 0;
+
+
+	for (i = 0; i < this->_enemies[index]->getShape().getSizeX(); i++) {
+		for (j = 0; j < this->_enemies[index]->getShape().getSizeY(); j++) {
+
+			if (this->_map->getDefinition()[i + this->_enemies[index]->getShape().getPosX()][j + this->_enemies[index]->getShape().getPosY()] == 3) {
+				return true;
+			}
+
+		}
+	}
+
+	return false;
+}
+
 void 		Game::moveEnemies(void)
 {
 	int i = 0;
 
 	for (i = 0; i < this->_enemyNbrMax; i++) {
-		if (this->_enemies[i] != NULL && this->_enemies[i]->move())
-		{
-			this->_deleteEntity(this->_enemies[i]->getShape());
-			if (this->_enemies[i]->enemyMove(this->_map->getSizeX(), this->_map->getSizeY())) {
-				this->_putEntity(*this->_enemies[i], this->_enemies[i]->getShape().getPosX(), this->_enemies[i]->getShape().getPosY());
-			}else{
+		if (this->_enemies[i] != NULL) {
+			if (!this->_checkBullet(i)) {
+				if (this->_enemies[i]->move())
+				{
+					this->_deleteEntity(this->_enemies[i]->getShape());
+					if (this->_enemies[i]->enemyMove(this->_map->getSizeX(), this->_map->getSizeY())) {
+						this->_putEntity(*this->_enemies[i], this->_enemies[i]->getShape().getPosX(), this->_enemies[i]->getShape().getPosY());
+					}
+					else {
+						this->_enemyNbr--;
+						delete this->_enemies[i];
+						this->_enemies[i] = NULL;
+					}
+				}
+			}
+			else {
+				this->_deleteEntity(this->_enemies[i]->getShape());
 				this->_enemyNbr--;
 				delete this->_enemies[i];
 				this->_enemies[i] = NULL;
 			}
 		}
 	}
-
+	
 	return ;
+}
+
+
+void 		Game::moveBullet(void)
+{
+	Bullet *tmp = this->_bulletList;
+
+	if (!tmp) {
+		return ;
+	}
+	else {
+		while (tmp) {
+			if (tmp->move()) {
+				this->_deleteEntity(tmp->getBullet());
+				if (tmp->bulletMove(this->_map->getSizeX(), this->_map->getSizeY())) {
+					this->_putEntity(*tmp, tmp->getBullet().getPosX(), tmp->getBullet().getPosY());
+				}
+				else {
+					if (tmp->getNext()) {
+						if (tmp->getPrev()) {
+							tmp->getNext()->setPrev(tmp->getPrev());
+						}
+						else {
+							tmp->getNext()->setPrev(NULL);
+						}
+
+					}
+					if (tmp->getPrev()) {
+						if (tmp->getNext()) {
+							tmp->getPrev()->setNext(tmp->getNext());
+						}
+						else {
+							tmp->getPrev()->setNext(NULL);
+						}
+					}
+					//delete tmp;
+					//tmp = NULL;
+				}
+			}
+			tmp = tmp->getNext();
+		}
+	}
 }
 
 void Game::useWeapon(void)
@@ -318,16 +411,18 @@ void Game::useWeapon(void)
 	Bullet *tmp = this->_bulletList;
 
 	if (!tmp) {
-		this->_bulletList = this->_hero->getWeapon()->shoot();
+		this->_bulletList = this->_hero->getWeapon()->shoot(1);
+		this->_putEntity(*this->_bulletList, this->_hero->getShape().getPosX() + 1, this->_hero->getShape().getPosY() - 1);
 
 		return ;
 	}
 
-	while (tmp->next) {
+	while (tmp->getNext()) {
 		tmp = tmp->getNext();
 	}
 
 	tmp->setNext(this->_hero->getWeapon()->shoot(1));
+	this->_putEntity(*tmp->getNext(), this->_hero->getShape().getPosX() + 1, this->_hero->getShape().getPosY() - 1);
 
 	return ;
 }
@@ -339,21 +434,21 @@ void Game::play(int ch)
 		endwin();
 		return exit(0);
 	}
-	if (ch == 259) {
+	else if (ch == 259) {
 		this->moveEntity(*this->_hero, 1);
 	}
-	if (ch == 258) {
+	else if (ch == 258) {
 		this->moveEntity(*this->_hero, 2);
 	}
-	if (ch == 260) {
+	else if (ch == 260) {
 		this->moveEntity(*this->_hero, 3);
 	}
-	if (ch == 261) {
+	else if (ch == 261) {
 		this->moveEntity(*this->_hero, 4);
 	}
 
-	if (ch == ord(' ')) {
-
+	else if (ch == 32) {
+		this->useWeapon();
 	}
 
 	if (this->_enemyNbr == 0) {
@@ -362,5 +457,7 @@ void Game::play(int ch)
 	else {
 		this->moveEnemies();
 	}
+
+	this->moveBullet();
 
 }
