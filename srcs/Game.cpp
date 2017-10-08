@@ -268,6 +268,9 @@ void 		Game::setSizeMap(int x, int y)
 		endwin();
 		return exit(0);
 	}
+	else {
+		this->_putEntity(*this->_hero, this->_hero->getShape().getPosX(), this->_hero->getShape().getPosY());
+	}
 
 
 
@@ -302,19 +305,20 @@ void 		Game::setSizeMap(int x, int y)
 	}
 
 
-	int** tmp = this->_map->getDefinition();
-	delete this->_map;
-	this->_map = NULL;
-	this->_map = new AEntity(x - 1, y - 1, 0, 1);
+	AEntity* entityTmp = this->_map;
+
+	this->_map = new AEntity(x, y, 0, 1);
 
 	for (int i = 0; i < tmpX; i++) {
 		for (int j = 0; j < tmpY; j++) {
-			if (tmp[i][j] != 0) {
-				this->_map->setDefinition(i, j, tmp[i][j]);
+			if (entityTmp->getDefinition()[i][j] != 0) {
+				this->_map->setDefinition(i, j, entityTmp->getDefinition()[i][j]);
 			}
 		}
 	}
 
+	delete entityTmp;
+	entityTmp = NULL;
 
 }
 
