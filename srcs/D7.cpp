@@ -3,8 +3,11 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-D7::D7( Weapon *Weapon, unsigned int color) : Enemy(*new AEntity(2, 2, 2, 7), Weapon, 25, color)
+D7::D7( Weapon *Weapon, unsigned int color) : Enemy(*new AEntity(2, 2, 2, 7), Weapon, 25, color, 10)
 {
+	this->getShape().setDefinition(0, 0, 0);
+	this->getShape().setDefinition(1, 1, 0);
+
 	return ;
 }
 

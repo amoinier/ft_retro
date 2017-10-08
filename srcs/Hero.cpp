@@ -41,5 +41,15 @@ Hero & Hero::operator=( Hero const & rhs )
 	return *this;
 }
 
+int 	Hero::getScore(void) const
+{
+	return this->_score;
+}
+
+void 	Hero::setScore(int score)
+{
+	this->_score = score;
+}
+
 
 int Hero::defaultDefinition[3][3] = {{0,1,1},{1, 1, 1}, {0, 1, 1}};

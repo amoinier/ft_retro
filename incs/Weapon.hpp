@@ -13,7 +13,7 @@ public:
 
   Weapon& operator=(Weapon const & rhs);
 
-  Bullet*	shoot(int direction);
+  Bullet*	shoot(int direction, bool isHero);
 
 private:
 

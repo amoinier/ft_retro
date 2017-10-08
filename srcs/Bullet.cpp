@@ -5,7 +5,7 @@ Bullet::Bullet(void) :  _direction(1), _damage(35), _bullet(*new AEntity(1, 1, 3
 
 }
 
-Bullet::Bullet(int direction) : _direction(direction),  _damage(35), _bullet(*new AEntity(1, 1, 3, 1)), _next(NULL), _prev(NULL)
+Bullet::Bullet(int direction, bool isHero) : _heroBullet(isHero), _direction(direction),  _damage(35), _bullet(*new AEntity(1, 1, 3, 1)), _next(NULL), _prev(NULL)
 {
 
 }
@@ -23,6 +23,7 @@ Bullet::~Bullet(void)
 
 Bullet& Bullet::operator=(Bullet const & rhs)
 {
+	this->_heroBullet = rhs.isHeroBullet();
 	this->_damage = rhs.getDmg();
 	this->_direction = rhs.getDir();
 	this->_bullet = rhs.getBullet();
@@ -32,6 +33,10 @@ Bullet& Bullet::operator=(Bullet const & rhs)
 	return *this;
 }
 
+bool  		Bullet::isHeroBullet(void) const
+{
+	return this->_heroBullet;
+}
 
 int  		Bullet::getDmg(void) const
 {

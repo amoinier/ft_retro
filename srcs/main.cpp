@@ -6,7 +6,7 @@
 /*   By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/07 09:15:10 by amoinier          #+#    #+#             */
-/*   Updated: 2017/10/08 14:03:00 by amoinier         ###   ########.fr       */
+/*   Updated: 2017/10/08 17:03:34 by amoinier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int main(void)
 	while (1) {
 		ch = getch();
 		game->printMap();
-		wborder(game->getBox(), '|', '|', '-', '-', '*', '*', '*', '*');
-		wrefresh(game->getBox());
 		game->play(ch);
 
 		usleep(10000);

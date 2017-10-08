@@ -2,8 +2,21 @@
 /******************************************************************************
 ** 								CONSTRUCTOR
 ******************************************************************************/
-Vor_cha::Vor_cha ( Weapon * Weapon, unsigned int color): Enemy(*new AEntity(5, 5, 2, 10), Weapon, 50, color)
+Vor_cha::Vor_cha ( Weapon * Weapon, unsigned int color): Enemy(*new AEntity(5, 5, 2, 10), Weapon, 50, color, 15)
 {
+	this->getShape().setDefinition(0, 0, 0);
+	this->getShape().setDefinition(0, 1, 0);
+	this->getShape().setDefinition(1, 0, 0);
+	this->getShape().setDefinition(0, 3, 0);
+	this->getShape().setDefinition(0, 4, 0);
+	this->getShape().setDefinition(1, 4, 0);
+	this->getShape().setDefinition(3, 0, 0);
+	this->getShape().setDefinition(4, 0, 0);
+	this->getShape().setDefinition(4, 1, 0);
+	this->getShape().setDefinition(3, 4, 0);
+	this->getShape().setDefinition(4, 3, 0);
+	this->getShape().setDefinition(4, 4, 0);
+
 	return ;
 }
 

@@ -4,8 +4,8 @@
 ** 								CONSTRUCTOR
 ******************************************************************************/
 
-Enemy::Enemy( AEntity & shape, Weapon *weapon, unsigned int hp, unsigned int color ): ASpaceShip(hp, shape, weapon),
- _color(color), _rShoot(0), _rShootMax(30)
+Enemy::Enemy( AEntity & shape, Weapon *weapon, unsigned int hp, unsigned int color, int points ): ASpaceShip(hp, shape, weapon),
+_points(points), _color(color), _rShoot(0), _rShootMax(30)
 {
 	this->_rShoot =  rand() % this->_rShootMax + 100;
 }
@@ -28,7 +28,10 @@ Enemy::Enemy( Enemy const & src ) : ASpaceShip (src)
 
 Enemy & Enemy::operator=( Enemy const & rhs )
 {
+	this->_points = rhs._points;
 	this->_color = rhs._color;
+	this->_rShoot = rhs._rShoot;
+	this->_rShootMax = rhs._rShootMax;
 
 	return *this;
 }
@@ -42,7 +45,7 @@ Bullet	* Enemy::shoot( void )
 	if (this->_rShoot == 0)
 	{
 		this->_rShoot =  rand() % this->_rShootMax + 100;
-		return this->_weapon->shoot(2);
+		return this->_weapon->shoot(2, false);
 
 	}else
 	{
@@ -76,4 +79,14 @@ bool 	Enemy::move(void)
 
 		return false;
 	}
+}
+
+int Enemy::getPoints(void) const
+{
+	return this->_points;
+}
+
+void Enemy::setPoints(int points)
+{
+	this->_points = points;
 }

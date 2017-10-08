@@ -9,17 +9,18 @@ class Bullet {
 public:
 
 	Bullet(void);
-	Bullet(int direction);
+	Bullet(int direction, bool isHero);
 	Bullet(Bullet const & src);
 	~Bullet(void);
 
-	
+
 
 	int  		getDmg(void) const;
 	int  		getDir(void) const;
 	AEntity&  	getBullet(void) const;
 	Bullet*  	getNext(void) const;
 	Bullet*  	getPrev(void) const;
+	bool 		isHeroBullet(void) const;
 
 	void  		setDmg(int dmg);
 	void  		setDir(int direction);
@@ -33,6 +34,7 @@ public:
 	Bullet& operator=(Bullet const & rhs);
 
 private:
+	bool 		_heroBullet;
 	int			_direction;
 	int 		_damage;
 	AEntity&	_bullet;

@@ -7,6 +7,7 @@
 class Hero : public ASpaceShip
 {
 	private :
+		int _score;
 
 		Hero( void );
 
@@ -17,7 +18,11 @@ class Hero : public ASpaceShip
 		~Hero( void );
 
 		Hero & operator=( Hero const & rhs);
-		
+
 		static int defaultDefinition[3][3];
+
+		int 	getScore(void) const;
+
+		void 	setScore(int score);
 };
 #endif

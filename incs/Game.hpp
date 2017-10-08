@@ -3,6 +3,7 @@
 
 #include <ncurses.h>
 #include <iostream>
+#include <ctime>
 #include "AEntity.hpp"
 #include "Hero.hpp"
 #include "Enemy.hpp"
@@ -31,12 +32,13 @@ class Game
 		bool		_moveEntityDown(AEntity &entity);
 		bool		_moveEntityLeft(AEntity &entity);
 		bool		_moveEntityRight(AEntity &entity);
-		int 		_deleteBullet(int posX, int posY);
+		Bullet*		_deleteBullet(int posX, int posY);
 		void		_pushBullet(Bullet *bullet, int x, int y);
 
 
 
-		int 		_checkBullet(int index);
+		Bullet* 		_checkBullet(int index);
+		Bullet* 		_checkBullet(void);
 
 		Enemy*			_callD7(void) const;
 		Enemy*			_callVor_cha(void) const;
@@ -64,6 +66,11 @@ class Game
 
 		void 		setBox(WINDOW* box);
 		void 		setSizeMap(int x, int y);
+
+		static std::time_t countTime;
+
+		static std::time_t timeGame;
+
 
 };
 #endif

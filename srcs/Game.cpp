@@ -7,6 +7,18 @@ Game::Game (int enemyNbr) :  _enemyNbr(0), _enemyNbrMax(enemyNbr), _bulletList(N
 {
 	std::srand(std::time(NULL) + std::clock());
 	initscr();
+	start_color();
+
+	init_color(COLOR_MAGENTA, 999, 0, 0);
+	init_color(COLOR_WHITE, 999, 999, 999);
+	init_color(COLOR_YELLOW, 999, 999, 0);
+	init_color(COLOR_BLUE, 0, 0, 999);
+	init_pair(100, COLOR_MAGENTA, COLOR_BLACK);
+	init_pair(10, COLOR_WHITE, COLOR_BLACK);
+	init_pair(11, COLOR_WHITE, COLOR_MAGENTA);
+	init_pair(12, COLOR_WHITE, COLOR_YELLOW);
+	init_pair(13, COLOR_WHITE, COLOR_BLUE);
+
 	nodelay(stdscr, TRUE);
 	keypad(stdscr, TRUE);
 	curs_set(0);
@@ -98,7 +110,7 @@ void 		Game::_putEntity(Hero &hero, int x, int y)
 	for (i = 0; i < hero.getShape().getSizeX(); i++) {
 		for (j = 0; j < hero.getShape().getSizeY(); j++) {
 
-			if (hero.getShape().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] != 0) { //TOCHANGE
+			if (hero.getShape().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] == 2) { //TOCHANGE
 
 				endwin();
 				return exit(0);
@@ -252,7 +264,7 @@ void		Game::_pushBullet(Bullet *new_bullet, int x, int y)
 	return ;
 }
 
-int Game::_checkBullet(int index)
+Bullet* Game::_checkBullet(int index)
 {
 
 	int i = 0;
@@ -269,21 +281,40 @@ int Game::_checkBullet(int index)
 		}
 	}
 
-	return 0;
+	return NULL;
 }
 
-int Game::_deleteBullet(int posX, int posY)
+Bullet* Game::_checkBullet(void)
+{
+	int i = 0;
+	int j = 0;
+
+
+	for (i = 0; i < this->_hero->getShape().getSizeX(); i++) {
+		for (j = 0; j < this->_hero->getShape().getSizeY(); j++) {
+
+			if (this->_map->getDefinition()[i + this->_hero->getShape().getPosX()][j + this->_hero->getShape().getPosY()] == 3) {
+				return this->_deleteBullet(i + this->_hero->getShape().getPosX(), j + this->_hero->getShape().getPosY());
+			}
+
+		}
+	}
+
+	return NULL;
+}
+
+Bullet* Game::_deleteBullet(int posX, int posY)
 {
 	Bullet *tmp = this->_bulletList;
-	int dmg = 0;
+	Bullet* ret = NULL;
 
 	if (!tmp) {
-		return dmg;
+		return ret;
 	}
 	else {
 		while (tmp) {
 			if (tmp->getBullet().getPosX() == posX && tmp->getBullet().getPosY() == posY) {
-				dmg = tmp->getDmg();
+				ret = new Bullet(*tmp);
 				this->_deleteEntity(tmp->getBullet());
 				if (tmp->getNext()) {
 					tmp->getNext()->setPrev(tmp->getPrev());
@@ -297,12 +328,12 @@ int Game::_deleteBullet(int posX, int posY)
 				}
 				delete tmp;
 				tmp = NULL;
-				return dmg;
+				return ret;
 			}
 
 			tmp = tmp->getNext();
 		}
-		return dmg;
+		return ret;
 	}
 }
 
@@ -409,20 +440,28 @@ void Game::printMap(void)
 {
 	int i = 0;
 	int j = 0;
+	int randBack;
 
 	for (i = 0; i < this->_map->getSizeX(); i++) {
 		for (j = 0; j < this->_map->getSizeY(); j++) {
+			randBack = rand() % 10000;
 			if (this->_map->getDefinition()[i][j] == 1) {
-				mvwaddch(this->getBox(), j, i, '#');
+				attron(COLOR_PAIR(13));
+				mvwaddch(this->getBox(), j, i, ' ');
+				attron(COLOR_PAIR(10));
 			}
 			else if (this->_map->getDefinition()[i][j] == 2) {
-				mvwaddch(this->getBox(), j, i, '@');
+				attron(COLOR_PAIR(11));
+				mvwaddch(this->getBox(), j, i, ' ');
+				attron(COLOR_PAIR(10));
 			}
 			else if (this->_map->getDefinition()[i][j] == 3) {
-				mvwaddch(this->getBox(), j, i, '*');
+				attron(COLOR_PAIR(12));
+				mvwaddch(this->getBox(), j, i, ' ');
+				attron(COLOR_PAIR(10));
 			}
 			else {
-				mvwaddch(this->getBox(), j, i, ' ');
+					mvwaddch(this->getBox(), j, i, ' ');
 			}
 		}
 	}
@@ -469,6 +508,7 @@ void 		Game::moveEntity(Hero &hero, int vecteur)
 
 	this->_putEntity(hero, hero.getShape().getPosX(), hero.getShape().getPosY());
 
+
 	return ;
 
 }
@@ -476,11 +516,11 @@ void 		Game::moveEntity(Hero &hero, int vecteur)
 void 		Game::moveEnemies(void)
 {
 	int i = 0;
-	int dmg = 0;
+	Bullet* ret = NULL;
 
 	for (i = 0; i < this->_enemyNbrMax; i++) {
 		if (this->_enemies[i] != NULL) {
-			if (!(dmg = this->_checkBullet(i))) {
+			if (!(ret = this->_checkBullet(i))) {
 				if (this->_enemies[i]->move())
 				{
 					this->_deleteEntity(this->_enemies[i]->getShape());
@@ -495,8 +535,11 @@ void 		Game::moveEnemies(void)
 				}
 			}
 			else {
-				this->_enemies[i]->setHp(this->_enemies[i]->getHp() - dmg);
+				this->_enemies[i]->setHp(this->_enemies[i]->getHp() - ret->getDmg());
 				if (this->_enemies[i]->getHp() <= 0) {
+					if (ret->isHeroBullet()) {
+						this->_hero->setScore(this->_hero->getScore() + this->_enemies[i]->getPoints());
+					}
 					this->_deleteEntity(this->_enemies[i]->getShape());
 					this->_enemyNbr--;
 					delete this->_enemies[i];
@@ -519,7 +562,7 @@ void		Game::shootEnemies(void)
 			new_bullet = this->_enemies[i]->shoot();
 			if (new_bullet)
 			{
-				this->_pushBullet(new_bullet, this->_enemies[i]->getShape().getPosX() + 1 ,this->_enemies[i]->getShape().getPosY() +this->_enemies[i]->getShape().getSizeY() + 1);
+				this->_pushBullet(new_bullet, this->_enemies[i]->getShape().getPosX() + (this->_enemies[i]->getShape().getSizeX() / 2) ,this->_enemies[i]->getShape().getPosY() +this->_enemies[i]->getShape().getSizeY() + 1);
 			}
 		}
 	}
@@ -569,7 +612,7 @@ void Game::useWeapon(void)
 {
 	Bullet *new_bullet;
 
-	new_bullet = this->_hero->getWeapon()->shoot(1);
+	new_bullet = this->_hero->getWeapon()->shoot(1, true);
 	this->_pushBullet(new_bullet, this->_hero->getShape().getPosX() + 1, this->_hero->getShape().getPosY() - 1);
 	return ;
 }
@@ -577,7 +620,8 @@ void Game::useWeapon(void)
 
 void Game::play(int ch)
 {
-	int sendWave = rand() % 300;
+	Bullet* ret = NULL;
+	int sendWave = (rand() % 10) + 3;
 
 	if (ch == 410) {
 		this->setSizeMap(getmaxx(this->getBox()), getmaxy(this->getBox()));
@@ -603,14 +647,33 @@ void Game::play(int ch)
 		this->useWeapon();
 	}
 
-	this->_putEntity(*this->_hero, this->_hero->getShape().getPosX(), this->_hero->getShape().getPosY());
+	if (!(ret = this->_checkBullet())) {
+		this->_putEntity(*this->_hero, this->_hero->getShape().getPosX(), this->_hero->getShape().getPosY());
+	}
+	else {
+		this->_hero->setHp(this->_hero->getHp() - ret->getDmg());
+		if (this->_hero->getHp() <= 0) {
+			endwin();
+			return exit(0);
+		}
+	}
 
-	if (!sendWave % 4) {
+	if (Game::countTime + sendWave < std::time(0)) {
 		this->_newWave();
+		Game::countTime = std::time(0);
 	}
 	else {
 		this->moveEnemies();
 		this->shootEnemies();
 	}
 	this->moveBullet();
+
+	wborder(this->getBox(), '|', '|', '-', '-', '*', '*', '*', '*');
+	mvprintw(0, 2, "SCORE: %d", this->_hero->getScore());
+	mvprintw(0, 14, "TIME: %d", (std::time(0) - Game::timeGame));
+	mvprintw(0, 25, "LIFE: %d", this->_hero->getHp());
+	wrefresh(this->getBox());
 }
+
+std::time_t Game::countTime = std::time(0);
+std::time_t Game::timeGame = std::time(0);
