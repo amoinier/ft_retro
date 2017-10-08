@@ -18,12 +18,11 @@ class ASpaceShip
 
 	public :
 
-		virtual ~ASpaceShip( void ) {};
-
 		ASpaceShip( ASpaceShip const & src );
 
 		ASpaceShip( unsigned int hp, AEntity & shape);
 		ASpaceShip( unsigned int hp, AEntity & shape, Weapon * weapon);
+		virtual ~ASpaceShip(void) {};
 
 
 

@@ -115,8 +115,9 @@ void 		Game::_putEntity(Enemy &enemy, int x, int y)
 	for (i = 0; i < enemy.getShape().getSizeX(); i++) {
 		for (j = 0; j < enemy.getShape().getSizeY(); j++) {
 
-			if (enemy.getShape().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] == 3) {
-				this->_deleteEntity(enemy.getShape());
+			if (enemy.getShape().getDefinition()[i][j] != this->_map->getDefinition()[i + x][j + y] && this->_map->getDefinition()[i + x][j + y] == 1) {
+				endwin();
+				return exit(0);
 			}
 
 			if (enemy.getShape().getDefinition()[i][j] != 0) {
@@ -323,6 +324,7 @@ bool Game::_checkBullet(int index)
 		for (j = 0; j < this->_enemies[index]->getShape().getSizeY(); j++) {
 
 			if (this->_map->getDefinition()[i + this->_enemies[index]->getShape().getPosX()][j + this->_enemies[index]->getShape().getPosY()] == 3) {
+				this->_deleteBullet(i + this->_enemies[index]->getShape().getPosX(), j + this->_enemies[index]->getShape().getPosY());
 				return true;
 			}
 
@@ -330,6 +332,37 @@ bool Game::_checkBullet(int index)
 	}
 
 	return false;
+}
+
+void Game::_deleteBullet(int posX, int posY)
+{
+	Bullet *tmp = this->_bulletList;
+
+	if (!tmp) {
+		return ;
+	}
+	else {
+		while (tmp) {
+			if (tmp->getBullet().getPosX() == posX && tmp->getBullet().getPosY() == posY) {
+				this->_deleteEntity(tmp->getBullet());
+				if (tmp->getNext()) {
+					tmp->getNext()->setPrev(tmp->getPrev());
+				}
+				if (tmp->getPrev()) {
+					tmp->getPrev()->setNext(tmp->getNext());
+				}
+
+				if (tmp == this->_bulletList) {
+					this->_bulletList = tmp->getNext();
+				}
+				delete tmp;
+				tmp = NULL;
+				return ;
+			}
+
+			tmp = tmp->getNext();
+		}
+	}
 }
 
 void 		Game::moveEnemies(void)
@@ -360,7 +393,7 @@ void 		Game::moveEnemies(void)
 			}
 		}
 	}
-	
+
 	return ;
 }
 
@@ -368,6 +401,7 @@ void 		Game::moveEnemies(void)
 void 		Game::moveBullet(void)
 {
 	Bullet *tmp = this->_bulletList;
+	Bullet *tmp2 = this->_bulletList;
 
 	if (!tmp) {
 		return ;
@@ -381,24 +415,21 @@ void 		Game::moveBullet(void)
 				}
 				else {
 					if (tmp->getNext()) {
-						if (tmp->getPrev()) {
-							tmp->getNext()->setPrev(tmp->getPrev());
-						}
-						else {
-							tmp->getNext()->setPrev(NULL);
-						}
+						tmp->getNext()->setPrev(tmp->getPrev());
+					}
 
-					}
 					if (tmp->getPrev()) {
-						if (tmp->getNext()) {
-							tmp->getPrev()->setNext(tmp->getNext());
-						}
-						else {
-							tmp->getPrev()->setNext(NULL);
-						}
+						tmp->getPrev()->setNext(tmp->getNext());
 					}
-					//delete tmp;
-					//tmp = NULL;
+					if (tmp == this->_bulletList) {
+						this->_bulletList = tmp->getNext();
+					}
+					tmp2 = tmp->getNext();
+
+					delete tmp;
+					tmp = NULL;
+					tmp = tmp2;
+					continue;
 				}
 			}
 			tmp = tmp->getNext();
@@ -422,6 +453,7 @@ void Game::useWeapon(void)
 	}
 
 	tmp->setNext(this->_hero->getWeapon()->shoot(1));
+	tmp->getNext()->setPrev(tmp);
 	this->_putEntity(*tmp->getNext(), this->_hero->getShape().getPosX() + 1, this->_hero->getShape().getPosY() - 1);
 
 	return ;
@@ -432,6 +464,7 @@ void Game::play(int ch)
 {
 	if (ch == 27) {
 		endwin();
+		while(1);
 		return exit(0);
 	}
 	else if (ch == 259) {

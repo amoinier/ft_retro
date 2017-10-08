@@ -17,7 +17,7 @@ Bullet::Bullet(Bullet const & src) : _bullet(src.getBullet())
 
 Bullet::~Bullet(void)
 {
-
+	delete &_bullet;
 }
 
 

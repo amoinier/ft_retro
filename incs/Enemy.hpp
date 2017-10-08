@@ -19,7 +19,7 @@ class Enemy : public ASpaceShip
 		Enemy( AEntity & shape, unsigned int hp);
 		//Enemy( AEntity const & shape, unsigned int hp);
 		Enemy( Enemy const & src );
-		~Enemy( void );
+		virtual ~Enemy( void ) {};
 
 		Enemy & operator=( Enemy const & rhs);
 
