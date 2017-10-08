@@ -6,7 +6,7 @@
 #    By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/02 09:41:50 by amoinier          #+#    #+#              #
-#    Updated: 2017/10/08 19:52:34 by amoinier         ###   ########.fr        #
+#    Updated: 2017/10/08 20:04:49 by abary            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,27 +43,26 @@ OBJS = 	main.o \
 		Carrier.o
 
 
+
 OBCC = $(addprefix $(OBDIR),$(OBJS))
 
 LIB = -lncurses
 
 all: $(NAME)
 
-folder:
-	mkdir -p $(OBDIR)
-
-$(NAME): folder $(OBCC)
+$(NAME): $(OBCC)
 	clang++ $(FLAG) $(OBCC) -I incs/ $(LIB) -o $(NAME)
 
 $(OBDIR)%.o: $(SRCDIR)%.cpp
+	@mkdir -p objs/
 	clang++ $(FLAG) -I incs/ $^ -c -o $@
 
-clean: folder
+clean: 
 	rm -f $(OBCC)
 
 fclean: clean
 	rm -f $(NAME)
 
-.PHONY: all clean folder fclean re
+.PHONY: all clean fclean re
 
 re: fclean all
