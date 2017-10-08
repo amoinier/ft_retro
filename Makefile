@@ -6,7 +6,7 @@
 #    By: amoinier <amoinier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/02 09:41:50 by amoinier          #+#    #+#              #
-#    Updated: 2017/10/08 19:22:17 by amoinier         ###   ########.fr        #
+#    Updated: 2017/10/08 19:52:34 by amoinier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,18 +49,21 @@ LIB = -lncurses
 
 all: $(NAME)
 
-$(NAME): $(OBCC)
+folder:
+	mkdir -p $(OBDIR)
+
+$(NAME): folder $(OBCC)
 	clang++ $(FLAG) $(OBCC) -I incs/ $(LIB) -o $(NAME)
 
 $(OBDIR)%.o: $(SRCDIR)%.cpp
 	clang++ $(FLAG) -I incs/ $^ -c -o $@
 
-clean:
+clean: folder
 	rm -f $(OBCC)
 
 fclean: clean
 	rm -f $(NAME)
 
-.PHONY: all clean fclean re
+.PHONY: all clean folder fclean re
 
 re: fclean all
