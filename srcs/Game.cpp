@@ -66,13 +66,22 @@ void 		Game::_initEnemy(void)
 
 void 		Game::_newWave(void)
 {
-	this->_enemyNbr = rand() % (this->_map->getSizeX() / 6); // 6 == LARGEST SPACESHIP X
-	Enemy* (Game::*Func[])(void) const = {&Game::_callD7, &Game::_callVor_cha};
+	int randValue = rand() % (this->_map->getSizeX() / 10); // 6 == LARGEST SPACESHIP X
+	int createdEnemies = 0;
 
-	for (int i = 0; i < this->_enemyNbr; i++) {
-		if (!this->_enemies[i]) {
-			this->_enemies[i] = (this->*Func[rand() % 2])();
-			this->_putEntity(*this->_enemies[i], ((this->_map->getSizeX() / (this->_enemyNbr)) * (i)) + 1, 0);
+	if (this->_enemyNbr + randValue < this->_enemyNbrMax) {
+		this->_enemyNbr += randValue;
+		Enemy* (Game::*Func[])(void) const = {&Game::_callD7, &Game::_callVor_cha};
+
+		for (int i = 0; i < this->_enemyNbr; i++) {
+			if (!this->_enemies[i]) {
+				this->_enemies[i] = (this->*Func[rand() % 2])();
+				this->_putEntity(*this->_enemies[i], ((this->_map->getSizeX() / (this->_enemyNbr)) * (i)) + 1, 0);
+				createdEnemies++;
+			}
+			if (createdEnemies == randValue) {
+				return ;
+			}
 		}
 	}
 
@@ -569,6 +578,8 @@ void Game::useWeapon(void)
 
 void Game::play(int ch)
 {
+	int sendWave = rand() % 300;
+
 	if (ch == 410) {
 		this->setSizeMap(getmaxx(this->getBox()), getmaxy(this->getBox()));
 		clear();
@@ -595,7 +606,7 @@ void Game::play(int ch)
 
 	this->_putEntity(*this->_hero, this->_hero->getShape().getPosX(), this->_hero->getShape().getPosY());
 
-	if (this->_enemyNbr == 0) {
+	if (!sendWave % 4) {
 		this->_newWave();
 	}
 	else {
